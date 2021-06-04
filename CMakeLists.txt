@@ -12,7 +12,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 #   https://stackoverflow.com/a/27175822/12347616
 set(CMAKE_SUPPRESS_REGENERATION true)
 
-add_executable(${PROJECT_NAME} src/main.cpp)
+add_executable(${PROJECT_NAME} src/main.cpp src/utils/PrintUtils.h)
 set(OPENGL_LIBRARY_DIR ${PROJECT_SOURCE_DIR}/dependencies/freeglut/lib/x64)
 #set(GLUT_glut_LIBRARY ${PROJECT_SOURCE_DIR}/dependencies/freeglut/lib/x64)
 set(GLUT_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/dependencies/freeglut/bin/x64)

@@ -3,6 +3,7 @@
 #include <GL/glut.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
+#include "utils/PrintUtils.h"
 
 int window;
 
@@ -88,6 +89,9 @@ void display()
 
 void init(int width, int height)
 {
+    print("Number ", 1, " and more...");
+    print("Hey");
+    print("Number ", 1);
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     glClearDepth(1.0);
     glDepthFunc(GL_LESS);
