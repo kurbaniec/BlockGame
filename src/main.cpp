@@ -10,6 +10,8 @@ int window;
 float hour = 0.0;
 float day = 0.0;
 float inc = 1.00;
+// Used for delta time
+int old_t;
 
 void resize(int width, int height)
 {
@@ -45,8 +47,20 @@ static void specialKeyPressed(int key, int x, int y)
     }
 }
 
+float getDeltaTime() {
+    // Get delta time
+    // See: https://stackoverflow.com/a/36100951/12347616
+    auto t = glutGet(GLUT_ELAPSED_TIME);
+    auto dt = float(t - old_t) / float(1000.0);
+    old_t = t;
+    return dt;
+}
+
 void display()
 {
+    auto dt = getDeltaTime();
+    print(dt);
+
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
 
@@ -89,9 +103,9 @@ void display()
 
 void init(int width, int height)
 {
-    print("Number ", 1, " and more...");
-    print("Hey");
-    print("Number ", 1);
+    // Setup delta time
+    old_t = glutGet(GLUT_ELAPSED_TIME);
+    // OpenGL configuration
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     glClearDepth(1.0);
     glDepthFunc(GL_LESS);
@@ -99,12 +113,6 @@ void init(int width, int height)
     glShadeModel(GL_FLAT);
     resize(width, height);
 }
-
-/**
-int main() {
-    std::cout << "Hello, World!" << std::endl;
-    return 0;
-}*/
 
 
 int main(int argc, char **argv)
