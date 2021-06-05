@@ -6,6 +6,7 @@
 #include "utils/PrintUtils.h"
 #include "game/Board.h"
 #include "game/Config.h"
+#include "game/Block.h"
 #include <vector>
 
 int window;
@@ -15,6 +16,7 @@ float day = 0.0;
 float inc = 1.00;
 // Used for delta time
 int old_t;
+float time_spent;
 
 void resize(int width, int height) {
     // prevent division by zero
@@ -23,7 +25,14 @@ void resize(int width, int height) {
     glViewport(0, 0, width, height);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(45.0f, (float) width / (float) height, 0.1f, 100.0f);
+    // Setup orthographic camera
+    // See: https://gamedev.stackexchange.com/a/49698
+    //gluPerspective(45.0f, (float) width / (float) height, 0.1f, 100.0f);
+    //gluOrtho2D(0, width, height, 0);
+    //glOrtho(0, width, height, 0, 0.1f, 100.0f);
+    float aspect = float(width) / float(height);
+    float visible = Config::cameraVisibleRange();
+    glOrtho(-visible * aspect, visible * aspect, -visible, visible, 0.1f, 100.0f);
     glMatrixMode(GL_MODELVIEW);
 }
 
@@ -58,7 +67,8 @@ float getDeltaTime() {
 
 void display() {
     auto dt = getDeltaTime();
-    print(dt);
+    time_spent += dt;
+    // print(dt);
 
     // print("Board: ", Board::get().getRows() , "X", Board::get().getCols());
 
@@ -86,6 +96,17 @@ void display() {
     // Blocks should be positioned in front of the backgroundPoints
     glTranslatef(0.0, 0.0, 0.1);
 
+    // Move Block down
+    if (time_spent > Config::speed()) {
+
+
+
+        time_spent = 0;
+    }
+
+    Block::get().draw();
+
+    /*
     // Block items
     glColor3f(0, 0, 0); // Black
     glBegin(GL_QUADS);
@@ -93,7 +114,7 @@ void display() {
     glVertex3f(-1, -3, 0);
     glVertex3f(-1, -2, 0);
     glVertex3f(-2, -2, 0);
-    glEnd();
+    glEnd();*/
 
     /**
     hour += inc;
@@ -136,11 +157,12 @@ void display() {
 void init(int width, int height) {
     // Setup game logic
     Board::get().setup(20, 10);
-    print("Board: ", Board::get().getRows() , "X", Board::get().getCols());
+    print("Board: ", Board::get().getRows(), "X", Board::get().getCols());
     // Print game board
     print2dVec(Board::get().getBoard());
     // Setup delta time
     old_t = glutGet(GLUT_ELAPSED_TIME);
+    time_spent = 0;
     // OpenGL configuration
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     glClearDepth(1.0);

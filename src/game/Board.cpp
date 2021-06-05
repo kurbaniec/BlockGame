@@ -8,14 +8,14 @@
 Board::Board() {
     rows = 0;
     cols = 0;
-    board = std::vector<std::vector<float>>();
+    board = std::vector<std::vector<int>>();
 }
 
 void Board::setup(int row_count, int col_count) {
     rows = row_count;
     cols = col_count;
     // Setup board
-    board = std::vector<std::vector<float>>(rows);
+    board = std::vector<std::vector<int>>(rows);
     for (auto i = 0; i < rows; i++) {
         // Create vector with column size
         // See: https://stackoverflow.com/a/11457626/12347616
@@ -25,7 +25,7 @@ void Board::setup(int row_count, int col_count) {
         //std::fill(col.begin(), col.end(), 0);
         // Found easier way
         // See: https://www.geeksforgeeks.org/vector-assign-in-c-stl/
-        std::vector<float> col;
+        std::vector<int> col;
         col.assign(cols, 0);
         board[i] = col;
     }
@@ -33,7 +33,7 @@ void Board::setup(int row_count, int col_count) {
 
 void Board::reset() {
     for (auto i = 0; i < rows; i++) {
-        std::vector<float> col;
+        std::vector<int> col;
         col.assign(cols, 0);
         board[i] = col;
     }
@@ -47,7 +47,7 @@ int Board::getCols() {
     return cols;
 }
 
-std::vector<std::vector<float>> Board::getBoard() {
+std::vector<std::vector<int>> Board::getBoard() {
     return board;
 }
 

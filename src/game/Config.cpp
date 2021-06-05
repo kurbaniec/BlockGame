@@ -3,6 +3,7 @@
 //
 
 #include "Config.h"
+#include <cstdlib>
 
 std::vector<std::vector<float>> Config::backgroundPoints() {
 
@@ -18,4 +19,20 @@ std::vector<std::vector<float>> Config::backgroundPoints() {
             {-2, -4, 0}, {2, -4, 0},
             {2, 4, 0}, {-2, 4, 0}
     };
+}
+
+float Config::speed() {
+    // 1 = 0.166 * 60
+    return 1;
+}
+
+float Config::cameraVisibleRange() {
+    // Idea is that the camera should render a bit more than the game background
+    // So we take the height from `backgroundPoints` and add a little bit to it
+    // Why the height? Because the game background is higher than wider
+    //  (wider coordinate distribution)
+    // https://gamedev.stackexchange.com/a/49698
+    auto bg = backgroundPoints();
+    auto margin = 0.2;
+    return float(abs(bg[0][1]) + margin);
 }
