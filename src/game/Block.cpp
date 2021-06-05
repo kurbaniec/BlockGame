@@ -7,7 +7,11 @@
 #include "Board.h"
 #include <GL/glut.h>
 
-Block::Block() {
+Block::Block() { // NOLINT(cppcoreguidelines-pro-type-member-init)
+    reset();
+}
+
+void Block::reset() {
     // TODO generate random block element
     x = 1;
     y = 1;
@@ -16,6 +20,10 @@ Block::Block() {
             {1, 1, 1},
             {0, 1, 0}
     };
+}
+
+void Block::saveToBoard() {
+    Board::get().saveToBoard(x, y, shape);
 }
 
 void Block::draw() {
@@ -80,6 +88,10 @@ void Block::moveDown() {
 
 void Block::rotate() {
 
+}
+
+bool Block::bottom() {
+    return Board::get().bottom(x, y, shape);
 }
 
 

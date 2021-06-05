@@ -52,16 +52,6 @@ void keyPressed(unsigned char key, int x, int y) {
 }
 
 static void specialKeyPressed(int key, int x, int y) {
-    /*
-    switch (key) {
-        case GLUT_KEY_UP:
-            inc *= 1.5;
-            print("a");
-            break;
-        case GLUT_KEY_DOWN:
-            inc *= 0.75;
-            break;
-    }*/
     switch (key) {
         case GLUT_KEY_DOWN:
             Block::get().moveDown();
@@ -117,10 +107,13 @@ void display() {
 
     // Move Block down
     if (time_spent > Config::speed()) {
-
-
-
+        Block::get().moveDown();
         time_spent = 0;
+    }
+
+    if (Block::get().bottom()) {
+        Block::get().saveToBoard();
+        Block::get().reset();
     }
 
     Block::get().draw();

@@ -14,6 +14,9 @@ public:
     void moveRight();
     void moveDown();
     void rotate();
+    bool bottom();
+    void saveToBoard();
+    void reset();
 
     static auto& get() {
         static Block board;

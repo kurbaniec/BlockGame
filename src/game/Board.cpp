@@ -71,6 +71,30 @@ bool Board::valid(int new_x, int new_y, const std::vector<std::vector<int>> &sha
     return true;
 }
 
+bool Board::bottom(int x, int y, const std::vector<std::vector<int>> &shape) {
+    if ((y + shape.size()) == rows) {
+        return true;
+    }
+
+    for (auto i = 0; i < shape.size(); i++) {
+        for (auto j = 0; j < shape[i].size(); j++) {
+            if (board[y + j + 1][x + i] != Color::EMPTY) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+void Board::saveToBoard(int x, int y, const std::vector<std::vector<int>> &shape) {
+    for (auto i = 0; i < shape.size(); i++) {
+        for (auto j = 0; j < shape[i].size(); j++) {
+            board[y + j][x + i] = shape[i][j];
+        }
+    }
+}
+
 
 
 
