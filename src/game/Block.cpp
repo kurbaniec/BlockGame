@@ -6,6 +6,7 @@
 #include "Config.h"
 #include "Board.h"
 #include <GL/glut.h>
+#include "../utils/MathUtils.h"
 
 Block::Block() { // NOLINT(cppcoreguidelines-pro-type-member-init)
     reset();
@@ -15,7 +16,7 @@ void Block::reset() {
     // TODO generate random block element
     x = 1;
     y = 0;
-    shape = std::vector<std::vector<int>> {
+    shape = std::vector<std::vector<int>>{
             {1, 0, 0},
             {1, 1, 1},
             {0, 1, 0}
@@ -34,8 +35,8 @@ void Block::draw() {
     auto rectWidth = (bg[1][0] - bg[0][0]) / float(cols);
     auto rectHeight = (bg[3][1] - bg[0][1]) / float(rows);
 
-    for (auto i=0; i < shape.size(); i++) {
-        for (auto j=0; j < shape[i].size(); j++) {
+    for (auto i = 0; i < shape.size(); i++) {
+        for (auto j = 0; j < shape[i].size(); j++) {
             auto color = shape[i][j];
             if (color != Color::EMPTY) {
                 // TODO set color
@@ -75,7 +76,23 @@ void Block::moveDown() {
 }
 
 void Block::rotate() {
-
+    // Copy shape
+    // See: https://stackoverflow.com/a/6435103/12347616
+    std::vector<std::vector<int>> new_shape(shape);
+    // Rotate shape clockwise
+    // See: https://michael-karen.medium.com/learning-modern-javascript-with-tetris-92d532bcd057
+    // First transpose matrix
+    MathUtils::transpose(new_shape);
+    std::vector<std::vector<int>> rot_matrix{
+            {0, 0, 1},
+            {0, 1, 0},
+            {1, 0, 0}
+    };
+    // Then multiply it with the defined rotation matrix
+    new_shape = MathUtils::multiply(new_shape, rot_matrix);
+    if (Board::get().valid(x, y, new_shape)) {
+        shape = new_shape;
+    }
 }
 
 bool Block::bottom() {
