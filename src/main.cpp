@@ -15,8 +15,6 @@ float inc = 1.00;
 // Used for delta time
 int old_t;
 
-Board board = Board(20, 10);
-
 void resize(int width, int height) {
     // prevent division by zero
     if (height == 0) { height = 1; }
@@ -60,6 +58,8 @@ float getDeltaTime() {
 void display() {
     auto dt = getDeltaTime();
     print(dt);
+
+    // print("Board: ", Board::get().getRows() , "X", Board::get().getCols());
 
     // Some small testing
     // See: https://stackoverflow.com/a/17663236/12347616
@@ -132,9 +132,9 @@ void display() {
 }
 
 void init(int width, int height) {
-    // TODO needed?
     // Setup game logic
-    print("Board: ", board.getRows() , "X", board.getCols());
+    Board::get().setup(20, 10);
+    print("Board: ", Board::get().getRows() , "X", Board::get().getCols());
     // Setup delta time
     old_t = glutGet(GLUT_ELAPSED_TIME);
     // OpenGL configuration

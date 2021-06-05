@@ -5,12 +5,18 @@
 #include <iostream>
 #include "Board.h"
 
-Board::Board(int rows, int cols) {
-    this->rows = rows;
-    this->cols = cols;
+Board::Board() {
+    rows = 0;
+    cols = 0;
+    board = std::vector<std::vector<int>>();
+}
+
+void Board::setup(int row_count, int col_count) {
+    rows = row_count;
+    cols = col_count;
     // Setup board
-    this->board = std::vector<std::vector<int>>(this->rows);
-    for (auto i = 0; i < this->rows; i++) {
+    board = std::vector<std::vector<int>>(rows);
+    for (auto i = 0; i < rows; i++) {
         // Create vector with column size
         // See: https://stackoverflow.com/a/11457626/12347616
         //std::vector<int> col(cols);
@@ -20,18 +26,22 @@ Board::Board(int rows, int cols) {
         // Found easier way
         // See: https://www.geeksforgeeks.org/vector-assign-in-c-stl/
         std::vector<int> col;
-        col.assign(this->cols, 0);
-        this->board[i] = col;
+        col.assign(cols, 0);
+        board[i] = col;
     }
 }
 
 int Board::getRows() {
-    return this->rows;
+    return rows;
 }
 
 int Board::getCols() {
-    return this->cols;
+    return cols;
 }
+
+
+
+
 
 
 
