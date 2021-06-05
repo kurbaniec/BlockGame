@@ -4,6 +4,7 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include "utils/PrintUtils.h"
+#include "game/Board.h"
 #include <vector>
 
 int window;
@@ -13,6 +14,8 @@ float day = 0.0;
 float inc = 1.00;
 // Used for delta time
 int old_t;
+
+Board board = Board(20, 10);
 
 void resize(int width, int height) {
     // prevent division by zero
@@ -129,6 +132,9 @@ void display() {
 }
 
 void init(int width, int height) {
+    // TODO needed?
+    // Setup game logic
+    print("Board: ", board.getRows() , "X", board.getCols());
     // Setup delta time
     old_t = glutGet(GLUT_ELAPSED_TIME);
     // OpenGL configuration
