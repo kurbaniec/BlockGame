@@ -114,9 +114,12 @@ void display() {
     if (Block::get().bottom()) {
         Block::get().saveToBoard();
         Block::get().reset();
+        // If block is invalid here == Game Over
+        print2dVec(Board::get().getBoard());
     }
 
     Block::get().draw();
+    Board::get().draw();
 
     /*
     // Block items

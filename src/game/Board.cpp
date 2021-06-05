@@ -5,6 +5,7 @@
 #include <iostream>
 #include "Board.h"
 #include "Config.h"
+#include <GL/glut.h>
 
 Board::Board() {
     rows = 0;
@@ -60,9 +61,11 @@ bool Board::valid(int new_x, int new_y, const std::vector<std::vector<int>> &sha
 
     for (auto i = 0; i < shape.size(); i++) {
         for (auto j = 0; j < shape[i].size(); j++) {
+            // If the coordinate is empty (no color) skip it
+            if (shape[i][j] == Color::EMPTY) continue;
             // If there is already a game piece on the board on the position
             // then the movement of the active game piece is invalid
-            if (board[new_y + j][new_x + i] != Color::EMPTY) {
+            if (board[new_y + i][new_x + j] != Color::EMPTY) {
                 return false;
             }
         }
@@ -78,7 +81,8 @@ bool Board::bottom(int x, int y, const std::vector<std::vector<int>> &shape) {
 
     for (auto i = 0; i < shape.size(); i++) {
         for (auto j = 0; j < shape[i].size(); j++) {
-            if (board[y + j + 1][x + i] != Color::EMPTY) {
+            if (shape[i][j] == Color::EMPTY) continue;
+            if (board[y + i + 1][x + j] != Color::EMPTY) {
                 return true;
             }
         }
@@ -90,7 +94,35 @@ bool Board::bottom(int x, int y, const std::vector<std::vector<int>> &shape) {
 void Board::saveToBoard(int x, int y, const std::vector<std::vector<int>> &shape) {
     for (auto i = 0; i < shape.size(); i++) {
         for (auto j = 0; j < shape[i].size(); j++) {
-            board[y + j][x + i] = shape[i][j];
+            if (shape[i][j] == Color::EMPTY) continue;
+            board[y + i][x + j] = shape[i][j];
+        }
+    }
+}
+
+void Board::draw() {
+    auto bg = Config::backgroundPoints();
+
+    auto rectWidth = (bg[1][0] - bg[0][0]) / float(cols);
+    auto rectHeight = (bg[3][1] - bg[0][1]) / float(rows);
+
+    for (auto i=0; i < board.size(); i++) {
+        for (auto j=0; j < board[i].size(); j++) {
+            auto color = board[i][j];
+            if (color != Color::EMPTY) {
+                // TODO set color
+                glColor3f(0, 1, 0);
+
+                auto rectX = bg[3][0] + (float(j) * rectWidth);
+                auto rectY = bg[3][1] - (float(i) * rectHeight);
+
+                glBegin(GL_QUADS);
+                glVertex3f(rectX, rectY - rectHeight, 0);                 // Left bottom
+                glVertex3f(rectX + rectWidth, rectY - rectHeight, 0);  // Right bottom
+                glVertex3f(rectX + rectWidth, rectY, 0);                  // Right Top
+                glVertex3f(rectX, rectY, 0);                                 // Left Top
+                glEnd();
+            }
         }
     }
 }

@@ -13,6 +13,7 @@ public:
 
     void setup(int rows, int cols);
     void reset();
+    void draw();
     bool valid(int new_x, int new_y, const std::vector<std::vector<int>>& shape);
     bool bottom(int x, int y, const std::vector<std::vector<int>>& shape);
     void saveToBoard(int x, int y, const std::vector<std::vector<int>>& shape);

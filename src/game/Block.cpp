@@ -14,7 +14,7 @@ Block::Block() { // NOLINT(cppcoreguidelines-pro-type-member-init)
 void Block::reset() {
     // TODO generate random block element
     x = 1;
-    y = 1;
+    y = 0;
     shape = std::vector<std::vector<int>> {
             {1, 0, 0},
             {1, 1, 1},
@@ -27,18 +27,6 @@ void Block::saveToBoard() {
 }
 
 void Block::draw() {
-    /*
-     // Background with a 1:2 ratio
-    auto bg = Config::backgroundPoints();
-    glColor3f(1, 1, 1); // White
-    glBegin(GL_QUADS);
-    glVertex3f(bg[0][0], bg[0][1], bg[0][2]);
-    glVertex3f(bg[1][0], bg[1][1], bg[1][2]);
-    glVertex3f(bg[2][0], bg[2][1], bg[2][2]);
-    glVertex3f(bg[3][0], bg[3][1], bg[3][2]);
-    glEnd();
-     */
-
     auto bg = Config::backgroundPoints();
     auto rows = Board::get().getRows();
     auto cols = Board::get().getCols();
