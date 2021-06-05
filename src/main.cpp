@@ -5,6 +5,7 @@
 #include <GL/glu.h>
 #include "utils/PrintUtils.h"
 #include "game/Board.h"
+#include "game/Config.h"
 #include <vector>
 
 int window;
@@ -69,19 +70,20 @@ void display() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
 
-    // Push background away from camera
-    glTranslatef(0.0, 0.0, -8.1);
+    // Push backgroundPoints away from camera
+    glTranslatef(0.0, 0.0, -10.1);
 
-    // Background
+    // Background with a 1:2 ratio
+    auto bg = Config::backgroundPoints();
     glColor3f(1, 1, 1); // White
     glBegin(GL_QUADS);
-    glVertex3f(-2, -3, 0);  // Left bottom
-    glVertex3f(2, -3, 0);   // Right bottom
-    glVertex3f(2, 3, 0);    // Right Top
-    glVertex3f(-2, 3, 0);   // Left Top
+    glVertex3f(bg[0][0], bg[0][1], bg[0][2]);  // Left bottom
+    glVertex3f(bg[1][0], bg[1][1], bg[1][2]);  // Right bottom
+    glVertex3f(bg[2][0], bg[2][1], bg[2][2]);  // Right Top
+    glVertex3f(bg[3][0], bg[3][1], bg[3][2]);  // Left Top
     glEnd();
 
-    // Blocks should be positioned in front of the background
+    // Blocks should be positioned in front of the backgroundPoints
     glTranslatef(0.0, 0.0, 0.1);
 
     // Block items

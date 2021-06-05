@@ -12,7 +12,6 @@ class Board {
 public:
 
     void setup(int rows, int cols);
-    //Board(int rows, int cols);
     int getRows();
     int getCols();
 
