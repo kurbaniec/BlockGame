@@ -137,6 +137,8 @@ void init(int width, int height) {
     // Setup game logic
     Board::get().setup(20, 10);
     print("Board: ", Board::get().getRows() , "X", Board::get().getCols());
+    // Print game board
+    print2dVec(Board::get().getBoard());
     // Setup delta time
     old_t = glutGet(GLUT_ELAPSED_TIME);
     // OpenGL configuration

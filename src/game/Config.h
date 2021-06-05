@@ -13,5 +13,10 @@ public:
     static std::vector<std::vector<float>> backgroundPoints();
 };
 
+enum Color {
+    EMPTY = 0,
+    RED = 1,
+};
+
 
 #endif //BLOCK_GAME_CONFIG_H

@@ -12,8 +12,11 @@ class Board {
 public:
 
     void setup(int rows, int cols);
+    void reset();
+
     int getRows();
     int getCols();
+    std::vector<std::vector<float>> getBoard();
 
     // Singleton based on:
     // https://codereview.stackexchange.com/a/173935
@@ -29,7 +32,7 @@ private:
     Board();
     int cols;
     int rows;
-    std::vector<std::vector<int>> board;
+    std::vector<std::vector<float>> board;
 };
 
 
