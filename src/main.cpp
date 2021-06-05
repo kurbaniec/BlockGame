@@ -9,6 +9,9 @@
 #include "game/Block.h"
 #include <vector>
 
+// See: https://www.gamedev.net/forums/topic/392837-spacebar-key/392837/
+#define GLUT_KEY_SPACEBAR 32
+
 int window;
 
 float hour = 0.0;
@@ -38,6 +41,9 @@ void resize(int width, int height) {
 
 void keyPressed(unsigned char key, int x, int y) {
     switch (key) {
+        case GLUT_KEY_SPACEBAR:
+            Block::get().rotate();
+            break;
         case 27:
             glutDestroyWindow(window);
             //exit(0);
@@ -46,12 +52,25 @@ void keyPressed(unsigned char key, int x, int y) {
 }
 
 static void specialKeyPressed(int key, int x, int y) {
+    /*
     switch (key) {
         case GLUT_KEY_UP:
             inc *= 1.5;
+            print("a");
             break;
         case GLUT_KEY_DOWN:
             inc *= 0.75;
+            break;
+    }*/
+    switch (key) {
+        case GLUT_KEY_DOWN:
+            Block::get().moveDown();
+            break;
+        case GLUT_KEY_LEFT:
+            Block::get().moveLeft();
+            break;
+        case GLUT_KEY_RIGHT:
+            Block::get().moveRight();
             break;
     }
 }
@@ -183,7 +202,11 @@ int main(int argc, char **argv) {
     glutIdleFunc(&display);
     glutReshapeFunc(&resize);
     glutKeyboardFunc(&keyPressed);
+    // Do not fire continuously key event
+    // See: https://stackoverflow.com/a/39562334/12347616
+    glutSetKeyRepeat(GLUT_KEY_REPEAT_OFF);
     glutSpecialFunc(&specialKeyPressed);
+    // glutKeyboardUpFunc(<some_func>);
     init(640, 480);
     glutMainLoop();
     return 0;

@@ -10,6 +10,10 @@
 class Block {
 public:
     void draw();
+    void moveLeft();
+    void moveRight();
+    void moveDown();
+    void rotate();
 
     static auto& get() {
         static Block board;
@@ -20,10 +24,12 @@ public:
     Block(Block &&) = delete;
     Block & operator=(Block &&) = delete;
 private:
-    Block();
     int x;
     int y;
     std::vector<std::vector<int>> shape;
+
+    Block();
+    void move(int x_offset, int y_offset);
 };
 
 #endif //BLOCK_GAME_BLOCK_H

@@ -57,8 +57,27 @@ void Block::draw() {
             }
         }
     }
+}
 
+void Block::move(int x_offset, int y_offset) {
+    x += x_offset;
+    y += y_offset;
+}
 
+void Block::moveLeft() {
+    move(-1, 0);
+}
 
+void Block::moveRight() {
+    move(1, 0);
+}
+
+void Block::moveDown() {
+    move(0, 1);
+}
+
+void Block::rotate() {
 
 }
+
+
