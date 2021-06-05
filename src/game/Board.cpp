@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include "Board.h"
+#include "Config.h"
 
 Board::Board() {
     rows = 0;
@@ -49,6 +50,25 @@ int Board::getCols() {
 
 std::vector<std::vector<int>> Board::getBoard() {
     return board;
+}
+
+bool Board::valid(int new_x, int new_y, const std::vector<std::vector<int>> &shape) {
+    if (new_x < 0 || new_y < 0 ||
+        (new_x + shape.size() - 1) >= cols || (new_y + shape.size() - 1) >= rows) {
+        return false;
+    }
+
+    for (auto i = 0; i < shape.size(); i++) {
+        for (auto j = 0; j < shape[i].size(); j++) {
+            // If there is already a game piece on the board on the position
+            // then the movement of the active game piece is invalid
+            if (board[new_y + j][new_x + i] != Color::EMPTY) {
+                return false;
+            }
+        }
+    }
+
+    return true;
 }
 
 

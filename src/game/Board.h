@@ -13,6 +13,7 @@ public:
 
     void setup(int rows, int cols);
     void reset();
+    bool valid(int new_x, int new_y, const std::vector<std::vector<int>>& shape);
 
     int getRows();
     int getCols();

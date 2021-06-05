@@ -60,8 +60,10 @@ void Block::draw() {
 }
 
 void Block::move(int x_offset, int y_offset) {
-    x += x_offset;
-    y += y_offset;
+    if (Board::get().valid(x + x_offset, y + y_offset, shape)) {
+        x += x_offset;
+        y += y_offset;
+    }
 }
 
 void Block::moveLeft() {
