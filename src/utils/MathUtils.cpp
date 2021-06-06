@@ -3,6 +3,7 @@
 //
 
 #include "MathUtils.h"
+#include <algorithm>
 
 /**
  * Transpose matrix (switch columns and rows)
@@ -46,6 +47,20 @@ std::vector<std::vector<T>> MathUtils::multiply(std::vector<std::vector<T>> &a, 
 }
 
 template<typename T>
+std::vector<std::vector<T>> MathUtils::multiply(std::vector<std::vector<T>> &a, int scalar) {
+    // Multiply using std::transform
+    // See: https://slaystudy.com/c-multiply-vector-by-scalar/
+    std::vector<std::vector<T>> c(a);
+    std::transform(c.begin(), c.end(), c.begin(), [scalar](std::vector<T> inner) {
+        std::transform(inner.begin(), inner.end(), inner.begin(), [scalar](T value) {
+            return value*scalar;
+        });
+        return inner;
+    });
+    return c;
+}
+
+template<typename T>
 std::vector<std::vector<T>> MathUtils::rotationMatrix(int size) {
 
     auto rotMatrix = std::vector<std::vector<T>>(size);
@@ -59,7 +74,6 @@ std::vector<std::vector<T>> MathUtils::rotationMatrix(int size) {
     return rotMatrix;
 }
 
-
 // Template definitions
 // See: https://stackoverflow.com/q/115703/12347616
 
@@ -67,6 +81,9 @@ template void MathUtils::transpose<int>(std::vector<std::vector<int>> &b);
 
 template std::vector<std::vector<int>>
 MathUtils::multiply(std::vector<std::vector<int>> &a, std::vector<std::vector<int>> &b);
+
+template std::vector<std::vector<int>>
+MathUtils::multiply(std::vector<std::vector<int>> &a, int scalar);
 
 template std::vector<std::vector<int>>
 MathUtils::rotationMatrix<int>(int size);

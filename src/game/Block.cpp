@@ -26,6 +26,7 @@ void Block::reset() {
     shape = std::vector<std::vector<int>> {
             {{0, 0, 0, 0}, {1, 1, 1, 1}, {0, 0, 0, 0}, {0, 0, 0, 0}},
     };
+    shape = MathUtils::multiply(shape, 2);
 }
 
 void Block::saveToBoard() {
