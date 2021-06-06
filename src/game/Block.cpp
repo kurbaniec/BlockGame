@@ -7,6 +7,7 @@
 #include "Board.h"
 #include <GL/glut.h>
 #include "../utils/MathUtils.h"
+#include "DrawColor.h"
 
 Block::Block() { // NOLINT(cppcoreguidelines-pro-type-member-init)
     reset();
@@ -39,8 +40,8 @@ void Block::draw() {
         for (auto j = 0; j < shape[i].size(); j++) {
             auto color = shape[i][j];
             if (color != Color::EMPTY) {
-                // TODO set color
-                glColor3f(0, 0, 1);
+
+                DrawColor::setColor(color);
 
                 auto rectX = bg[3][0] + (float(x + j) * rectWidth);
                 auto rectY = bg[3][1] - (float(y + i) * rectHeight);

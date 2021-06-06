@@ -15,10 +15,5 @@ public:
     static float cameraVisibleRange();
 };
 
-enum Color {
-    EMPTY = 0,
-    RED = 1,
-};
-
 
 #endif //BLOCK_GAME_CONFIG_H

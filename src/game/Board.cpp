@@ -5,6 +5,7 @@
 #include <iostream>
 #include "Board.h"
 #include "Config.h"
+#include "DrawColor.h"
 #include <GL/glut.h>
 
 Board::Board() {
@@ -110,8 +111,9 @@ void Board::draw() {
         for (auto j=0; j < board[i].size(); j++) {
             auto color = board[i][j];
             if (color != Color::EMPTY) {
-                // TODO set color
-                glColor3f(0, 1, 0);
+                // TODO filter board by callers to mitigate setColor calls
+                // Set draw color
+                DrawColor::setColor(color);
 
                 auto rectX = bg[3][0] + (float(j) * rectWidth);
                 auto rectY = bg[3][1] - (float(i) * rectHeight);
