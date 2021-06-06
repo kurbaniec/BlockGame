@@ -56,7 +56,7 @@ std::vector<std::vector<int>> Board::getBoard() {
 
 bool Board::valid(int new_x, int new_y, const std::vector<std::vector<int>> &shape) {
     if (new_x < 0 || new_y < 0 ||
-        (new_x + shape.size() - 1) >= cols || (new_y + shape.size() - 1) >= rows) {
+        (new_x + 1) >= cols || (new_y + 1) >= rows) {
         return false;
     }
 
@@ -66,6 +66,9 @@ bool Board::valid(int new_x, int new_y, const std::vector<std::vector<int>> &sha
             if (shape[i][j] == Color::EMPTY) continue;
             // If there is already a game piece on the board on the position
             // then the movement of the active game piece is invalid
+            if (new_x + j >= cols || new_y + i >= rows) {
+                return false;
+            }
             if (board[new_y + i][new_x + j] != Color::EMPTY) {
                 return false;
             }
@@ -76,13 +79,16 @@ bool Board::valid(int new_x, int new_y, const std::vector<std::vector<int>> &sha
 }
 
 bool Board::bottom(int x, int y, const std::vector<std::vector<int>> &shape) {
-    if ((y + shape.size()) == rows) {
+    if ((y + 1) == rows) {
         return true;
     }
 
     for (auto i = 0; i < shape.size(); i++) {
         for (auto j = 0; j < shape[i].size(); j++) {
             if (shape[i][j] == Color::EMPTY) continue;
+            if (y + i + 1>= rows) {
+                return true;
+            }
             if (board[y + i + 1][x + j] != Color::EMPTY) {
                 return true;
             }
