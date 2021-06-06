@@ -75,6 +75,20 @@ void Block::moveDown() {
     move(0, 1);
 }
 
+/**
+ * Hard drop
+ */
+void Block::drop() {
+    auto bottom = false;
+    do {
+        if (Board::get().valid(x, y + 1, shape)) {
+            y += 1;
+        } else {
+            bottom = true;
+        }
+    } while (!bottom);
+}
+
 void Block::rotate() {
     // Copy shape
     // See: https://stackoverflow.com/a/6435103/12347616

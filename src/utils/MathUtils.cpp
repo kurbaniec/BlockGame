@@ -5,7 +5,7 @@
 #include "MathUtils.h"
 
 /**
- * Transpose matrix
+ * Transpose matrix (switch columns and rows)
  * Source: https://stackoverflow.com/a/49445850/12347616
  */
 template<typename T>

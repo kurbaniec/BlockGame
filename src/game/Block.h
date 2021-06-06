@@ -13,6 +13,7 @@ public:
     void moveLeft();
     void moveRight();
     void moveDown();
+    void drop();
     void rotate();
     bool bottom();
     void saveToBoard();

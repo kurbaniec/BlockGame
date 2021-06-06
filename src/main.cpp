@@ -54,7 +54,8 @@ void keyPressed(unsigned char key, int x, int y) {
 static void specialKeyPressed(int key, int x, int y) {
     switch (key) {
         case GLUT_KEY_DOWN:
-            Block::get().moveDown();
+            // Block::get().moveDown();
+            Block::get().drop();
             break;
         case GLUT_KEY_LEFT:
             Block::get().moveLeft();
