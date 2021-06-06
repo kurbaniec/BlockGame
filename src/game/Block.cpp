@@ -17,10 +17,13 @@ void Block::reset() {
     // TODO generate random block element
     x = 1;
     y = 0;
-    shape = std::vector<std::vector<int>>{
+    /*shape = std::vector<std::vector<int>>{
             {1, 0, 0},
             {1, 1, 1},
             {0, 1, 0}
+    };*/
+    shape = std::vector<std::vector<int>> {
+            {{0, 0, 0, 0}, {1, 1, 1, 1}, {0, 0, 0, 0}, {0, 0, 0, 0}},
     };
 }
 
