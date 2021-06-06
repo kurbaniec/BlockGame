@@ -55,8 +55,7 @@ std::vector<std::vector<int>> Board::getBoard() {
 }
 
 bool Board::valid(int new_x, int new_y, const std::vector<std::vector<int>> &shape) {
-    if (new_x < 0 || new_y < 0 ||
-        (new_x + 1) >= cols || (new_y + 1) >= rows) {
+    if (new_x+shape.size() <= 0 || new_y < 0 || (new_y + 1) >= rows) {
         return false;
     }
 
@@ -64,11 +63,12 @@ bool Board::valid(int new_x, int new_y, const std::vector<std::vector<int>> &sha
         for (auto j = 0; j < shape[i].size(); j++) {
             // If the coordinate is empty (no color) skip it
             if (shape[i][j] == Color::EMPTY) continue;
-            // If there is already a game piece on the board on the position
-            // then the movement of the active game piece is invalid
-            if (new_x + j >= cols || new_y + i >= rows) {
+            // Check if left / right / bottom border
+            if (new_x + j < 0 || new_x + j >= cols || new_y + i >= rows) {
                 return false;
             }
+            // If there is already a game piece on the board on the position
+            // then the movement of the active game piece is invalid
             if (board[new_y + i][new_x + j] != Color::EMPTY) {
                 return false;
             }
@@ -79,7 +79,7 @@ bool Board::valid(int new_x, int new_y, const std::vector<std::vector<int>> &sha
 }
 
 bool Board::bottom(int x, int y, const std::vector<std::vector<int>> &shape) {
-    if ((y + 1) == rows) {
+    if ((y + 1) >= rows) {
         return true;
     }
 

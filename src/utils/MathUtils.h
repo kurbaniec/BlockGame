@@ -14,6 +14,9 @@ public:
 
     template<typename T>
     static std::vector<std::vector<T>> multiply(std::vector<std::vector<T>> &a, std::vector<std::vector<T>> &b);
+
+    template<typename T>
+    static std::vector<std::vector<T>> rotationMatrix(int size);
 };
 
 

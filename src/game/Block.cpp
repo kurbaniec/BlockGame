@@ -17,15 +17,15 @@ void Block::reset() {
     // TODO generate random block element
     x = 1;
     y = 0;
-    shape = std::vector<std::vector<int>>{
+    /*shape = std::vector<std::vector<int>>{
             {1, 0, 0},
             {1, 1, 1},
             {0, 1, 0}
     };
-    /*
+    */
     shape = std::vector<std::vector<int>> {
             {{0, 0, 0, 0}, {1, 1, 1, 1}, {0, 0, 0, 0}, {0, 0, 0, 0}},
-    };*/
+    };
 }
 
 void Block::saveToBoard() {
@@ -102,11 +102,8 @@ void Block::rotate() {
     // See: https://michael-karen.medium.com/learning-modern-javascript-with-tetris-92d532bcd057
     // First transpose matrix
     MathUtils::transpose(new_shape);
-    std::vector<std::vector<int>> rot_matrix{
-            {0, 0, 1},
-            {0, 1, 0},
-            {1, 0, 0}
-    };
+    // Get rotation matrix for given shape size
+    auto rot_matrix = MathUtils::rotationMatrix<int>(int(shape.size()));
     // Then multiply it with the defined rotation matrix
     new_shape = MathUtils::multiply(new_shape, rot_matrix);
     if (Board::get().valid(x, y, new_shape)) {

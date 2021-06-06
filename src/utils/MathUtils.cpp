@@ -45,6 +45,20 @@ std::vector<std::vector<T>> MathUtils::multiply(std::vector<std::vector<T>> &a, 
     return c;
 }
 
+template<typename T>
+std::vector<std::vector<T>> MathUtils::rotationMatrix(int size) {
+
+    auto rotMatrix = std::vector<std::vector<T>>(size);
+    for (auto i = 0; i < size; i++) {
+        std::vector<T> col;
+        col.assign(size, T(0));
+        col[size-1-i] = T(1);
+        rotMatrix[i] = col;
+    }
+
+    return rotMatrix;
+}
+
 
 // Template definitions
 // See: https://stackoverflow.com/q/115703/12347616
@@ -53,3 +67,6 @@ template void MathUtils::transpose<int>(std::vector<std::vector<int>> &b);
 
 template std::vector<std::vector<int>>
 MathUtils::multiply(std::vector<std::vector<int>> &a, std::vector<std::vector<int>> &b);
+
+template std::vector<std::vector<int>>
+MathUtils::rotationMatrix<int>(int size);
