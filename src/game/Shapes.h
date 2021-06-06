@@ -7,22 +7,30 @@
 
 
 #include <vector>
+#include <random>
 
 class Shapes {
+public:
     static std::vector<std::vector<std::vector<int>>> shapes() {
         // Static vector
         // See: https://stackoverflow.com/a/31608148/12347616
-        static std::vector<std::vector<std::vector<int>>> shapes {
+        static std::vector<std::vector<std::vector<int>>> shapes{
                 {{0, 0, 0, 0}, {1, 1, 1, 1}, {0, 0, 0, 0}, {0, 0, 0, 0}},
-                {{2, 0, 0}, {2, 2, 2}, {0, 0, 0}},
-                {{0, 0, 3}, {3, 3, 3}, {0, 0, 0}},
-                {{4, 4}, {4, 4}},
-                {{0, 5, 5}, {5, 5, 0}, {0, 0, 0}},
-                {{0, 6, 0}, {6, 6, 6}, {0, 0, 0}},
-                {{7, 7, 0}, {0, 7, 7}, {0, 0, 0}}
+                {{1, 0, 0},    {1, 1, 1},    {0, 0, 0}},
+                {{0, 0, 1},    {1, 1, 1},    {0, 0, 0}},
+                {{1, 1},       {1, 1}},
+                {{0, 1, 1},    {1, 1, 0},    {0, 0, 0}},
+                {{0, 1, 0},    {1, 1, 1},    {0, 0, 0}},
+                {{1, 1, 0},    {0, 1, 1},    {0, 0, 0}}
         };
         return shapes;
     };
+
+    static std::vector<std::vector<int>> randomShape();
+
+private:
+    static std::random_device random_device;
+    static std::mt19937 engine;
 };
 
 

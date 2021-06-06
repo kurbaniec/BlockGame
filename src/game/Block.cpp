@@ -8,6 +8,7 @@
 #include <GL/glut.h>
 #include "../utils/MathUtils.h"
 #include "DrawColor.h"
+#include "Shapes.h"
 
 Block::Block() { // NOLINT(cppcoreguidelines-pro-type-member-init)
     reset();
@@ -15,7 +16,7 @@ Block::Block() { // NOLINT(cppcoreguidelines-pro-type-member-init)
 
 void Block::reset() {
     // TODO generate random block element
-    x = 1;
+    x = 2;
     y = 0;
     /*shape = std::vector<std::vector<int>>{
             {1, 0, 0},
@@ -23,10 +24,12 @@ void Block::reset() {
             {0, 1, 0}
     };
     */
-    shape = std::vector<std::vector<int>> {
+    /*shape = std::vector<std::vector<int>> {
             {{0, 0, 0, 0}, {1, 1, 1, 1}, {0, 0, 0, 0}, {0, 0, 0, 0}},
-    };
-    shape = MathUtils::multiply(shape, 2);
+    };*/
+    shape = Shapes::randomShape();
+    auto color = DrawColor::randomColor();
+    shape = MathUtils::multiply(shape, color);
 }
 
 void Block::saveToBoard() {

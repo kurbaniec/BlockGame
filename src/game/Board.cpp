@@ -55,7 +55,7 @@ std::vector<std::vector<int>> Board::getBoard() {
 }
 
 bool Board::valid(int new_x, int new_y, const std::vector<std::vector<int>> &shape) {
-    if (new_x+shape.size() <= 0 || new_y < 0 || (new_y + 1) >= rows) {
+    if (new_x+shape.size() <= 0 || new_y+shape.size() <= 0 || (new_y + 1) >= rows) {
         return false;
     }
 
