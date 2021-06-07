@@ -63,6 +63,16 @@ void keyPressed(unsigned char key, int x, int y) {
                     break;
             }
             break;
+        case GAMEOVER:
+            switch (key) {
+                case GLUT_KEY_SPACEBAR:
+                    // Restart game
+                    Board::get().reset();
+                    Block::get().reset();
+                    state = PLAY;
+                    break;
+            }
+            break;
     }
 }
 
@@ -125,9 +135,13 @@ void display() {
         if (Block::get().bottom()) {
             Block::get().saveToBoard();
             Block::get().reset();
-            // If block is invalid here == Game Over
-
+            // Print board
             print2dVec(Board::get().getBoard());
+            // Check if game is over
+            if (Block::get().end()) {
+                state = GAMEOVER;
+                print("Game Over");
+            }
         }
 
         // Clear full game block lines

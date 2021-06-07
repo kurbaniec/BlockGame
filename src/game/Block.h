@@ -27,6 +27,8 @@ public:
 
     void reset();
 
+    bool end();
+
     static auto &get() {
         static Block board;
         return board;

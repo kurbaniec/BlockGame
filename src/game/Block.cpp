@@ -119,4 +119,16 @@ bool Block::bottom() {
     return Board::get().bottom(x, y, shape);
 }
 
+bool Block::end() {
+    if (!Board::get().valid(x, y, shape)) {
+        shape = std::vector<std::vector<int>>{
+                {0, 0, 0},
+                {0, 0, 0},
+                {0, 0, 0}
+        };
+        return true;
+    }
+    return false;
+}
+
 
