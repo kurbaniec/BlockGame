@@ -1,19 +1,21 @@
 #include <iostream>
 
 #include <GL/glut.h>
-#include <GL/gl.h>
-#include <GL/glu.h>
 #include "utils/PrintUtils.h"
 #include "game/Board.h"
 #include "game/Config.h"
 #include "game/Block.h"
-#include <vector>
+#include "game/State.h"
 
 // See: https://www.gamedev.net/forums/topic/392837-spacebar-key/392837/
 #define GLUT_KEY_SPACEBAR 32
+#define GLUT_KEY_P 112
+#define GLUT_KEY_ESCAPE 27
 
 int window;
 
+// Game state
+int state;
 // Used for delta time
 int old_t;
 float time_spent;
@@ -37,18 +39,35 @@ void resize(int width, int height) {
 }
 
 void keyPressed(unsigned char key, int x, int y) {
+    // Events that apply to all game states
     switch (key) {
-        case GLUT_KEY_SPACEBAR:
-            Block::get().rotate();
-            break;
-        case 27:
+        case GLUT_KEY_ESCAPE:
             glutDestroyWindow(window);
-            //exit(0);
+            break;
+        case GLUT_KEY_P:
+            if (state == PLAY) {
+                state = PAUSE;
+                print("Paused");
+            } else {
+                state = PLAY;
+                print("Continue");
+            }
+            break;
+    }
+    // Events that apply to only certain states
+    switch (state) {
+        case PLAY:
+            switch (key) {
+                case GLUT_KEY_SPACEBAR:
+                    Block::get().rotate();
+                    break;
+            }
             break;
     }
 }
 
 static void specialKeyPressed(int key, int x, int y) {
+    if (state != State::PLAY) return;
     switch (key) {
         case GLUT_KEY_DOWN:
             // Block::get().moveDown();
@@ -75,7 +94,7 @@ float getDeltaTime() {
 void display() {
     auto dt = getDeltaTime();
     time_spent += dt;
-    print(dt);
+    // print(dt);
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
@@ -96,21 +115,24 @@ void display() {
     // Blocks should be positioned in front of the backgroundPoints
     glTranslatef(0.0, 0.0, 0.1);
 
-    // Move Block down
-    if (time_spent > Config::speed()) {
-        Block::get().moveDown();
-        time_spent = 0;
-    }
+    if (state == State::PLAY) {
+        // Move Block down
+        if (time_spent > Config::speed()) {
+            Block::get().moveDown();
+            time_spent = 0;
+        }
 
-    if (Block::get().bottom()) {
-        Block::get().saveToBoard();
-        Block::get().reset();
-        // If block is invalid here == Game Over
-        print2dVec(Board::get().getBoard());
-    }
+        if (Block::get().bottom()) {
+            Block::get().saveToBoard();
+            Block::get().reset();
+            // If block is invalid here == Game Over
 
-    // Clear full game block lines
-    Board::get().lineClear();
+            print2dVec(Board::get().getBoard());
+        }
+
+        // Clear full game block lines
+        Board::get().lineClear();
+    }
 
     // Draw active game block and board
     Block::get().draw();
@@ -122,6 +144,7 @@ void display() {
 
 void init(int width, int height) {
     // Setup game logic
+    state = State::PLAY;
     Board::get().setup(20, 10);
     print("Board: ", Board::get().getRows(), "X", Board::get().getCols());
     // Print game board
