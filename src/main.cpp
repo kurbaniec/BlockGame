@@ -119,6 +119,10 @@ void display() {
         print2dVec(Board::get().getBoard());
     }
 
+    // Clear full game block lines
+    Board::get().lineClear();
+
+    // Draw active game block and board
     Block::get().draw();
     Board::get().draw();
 

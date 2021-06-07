@@ -10,19 +10,16 @@
  * Source: https://stackoverflow.com/a/49445850/12347616
  */
 template<typename T>
-void MathUtils::transpose(std::vector<std::vector<T>> &b) {
-    if (b.empty())
-        return;
-
-    std::vector<std::vector<T> > trans_vec(b[0].size(), std::vector<T>());
+std::vector<std::vector<T>> MathUtils::transpose(std::vector<std::vector<T>> &b) {
+    std::vector<std::vector<T> > tp_matrix(b[0].size(), std::vector<T>());
 
     for (auto &i : b) {
         for (int j = 0; j < i.size(); j++) {
-            trans_vec[j].push_back(i[j]);
+            tp_matrix[j].push_back(i[j]);
         }
     }
 
-    b = trans_vec;
+    return tp_matrix;
 }
 
 /**
@@ -53,7 +50,7 @@ std::vector<std::vector<T>> MathUtils::multiply(std::vector<std::vector<T>> &a, 
     std::vector<std::vector<T>> c(a);
     std::transform(c.begin(), c.end(), c.begin(), [scalar](std::vector<T> inner) {
         std::transform(inner.begin(), inner.end(), inner.begin(), [scalar](T value) {
-            return value*scalar;
+            return value * scalar;
         });
         return inner;
     });
@@ -63,21 +60,21 @@ std::vector<std::vector<T>> MathUtils::multiply(std::vector<std::vector<T>> &a, 
 template<typename T>
 std::vector<std::vector<T>> MathUtils::rotationMatrix(int size) {
 
-    auto rotMatrix = std::vector<std::vector<T>>(size);
+    auto rot_matrix = std::vector<std::vector<T>>(size);
     for (auto i = 0; i < size; i++) {
         std::vector<T> col;
         col.assign(size, T(0));
-        col[size-1-i] = T(1);
-        rotMatrix[i] = col;
+        col[size - 1 - i] = T(1);
+        rot_matrix[i] = col;
     }
 
-    return rotMatrix;
+    return rot_matrix;
 }
 
 // Template definitions
 // See: https://stackoverflow.com/q/115703/12347616
 
-template void MathUtils::transpose<int>(std::vector<std::vector<int>> &b);
+template std::vector<std::vector<int>> MathUtils::transpose<int>(std::vector<std::vector<int>> &b);
 
 template std::vector<std::vector<int>>
 MathUtils::multiply(std::vector<std::vector<int>> &a, std::vector<std::vector<int>> &b);

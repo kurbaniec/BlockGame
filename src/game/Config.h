@@ -11,7 +11,9 @@
 class Config {
 public:
     static std::vector<std::vector<float>> backgroundPoints();
+
     static float speed();
+
     static float cameraVisibleRange();
 };
 

@@ -15,9 +15,11 @@ std::vector<std::vector<float>> Config::backgroundPoints() {
      */
 
     // Left bottom - right bottom - right top - left top
-    return std::vector<std::vector<float>> {
-            {-2, -4, 0}, {2, -4, 0},
-            {2, 4, 0}, {-2, 4, 0}
+    return std::vector<std::vector<float>>{
+            {-2, -4, 0},
+            {2,  -4, 0},
+            {2,  4,  0},
+            {-2, 4,  0}
     };
 }
 

@@ -9,40 +9,34 @@
 
 #include <vector>
 
-template <typename T>
-void print(T t)
-{
+template<typename T>
+void print(T t) {
     std::cout << t << std::endl;
 }
 
 template<typename T, typename... Args>
-void print(T t, Args... args)
-{
+void print(T t, Args... args) {
     std::cout << t;
-    printer(args...) ;
+    printer(args...);
     std::cout << std::endl;
 }
 
-template <typename T>
-void printer(T t)
-{
+template<typename T>
+void printer(T t) {
     std::cout << t;
 }
 
 template<typename T, typename... Args>
-void printer(T t, Args... args)
-{
+void printer(T t, Args... args) {
     std::cout << t;
-    printer(args...) ;
+    printer(args...);
 }
 
 template<typename T>
 void print2dVec(std::vector<std::vector<T>> vec) {
     // See: https://stackoverflow.com/a/26937624/12347616
-    for (int i = 0; i < vec.size(); i++)
-    {
-        for (int j = 0; j < vec[i].size(); j++)
-        {
+    for (int i = 0; i < vec.size(); i++) {
+        for (int j = 0; j < vec[i].size(); j++) {
             std::cout << vec[i][j] << " ";
         }
         std::cout << std::endl;

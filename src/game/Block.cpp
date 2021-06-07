@@ -105,11 +105,11 @@ void Block::rotate() {
     // Rotate shape clockwise
     // See: https://michael-karen.medium.com/learning-modern-javascript-with-tetris-92d532bcd057
     // First transpose matrix
-    MathUtils::transpose(new_shape);
+    auto tp_matrix = MathUtils::transpose(new_shape);
     // Get rotation matrix for given shape size
     auto rot_matrix = MathUtils::rotationMatrix<int>(int(shape.size()));
     // Then multiply it with the defined rotation matrix
-    new_shape = MathUtils::multiply(new_shape, rot_matrix);
+    new_shape = MathUtils::multiply(tp_matrix, rot_matrix);
     if (Board::get().valid(x, y, new_shape)) {
         shape = new_shape;
     }

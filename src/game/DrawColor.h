@@ -4,11 +4,13 @@
 
 #ifndef BLOCK_GAME_DRAWCOLOR_H
 #define BLOCK_GAME_DRAWCOLOR_H
+
 #include <random>
 
 class DrawColor {
 public:
     static void setColor(int color);
+
     static int randomColor();
 
 private:
@@ -20,10 +22,11 @@ enum Color {
     EMPTY = 0,
     RED = 1,
     BLUE = 2,
+    GREEN = 3,
 };
 
 // Empty is not considered a Color
-const int Color_Count = 2;
+const int Color_Count = 3;
 
 
 #endif //BLOCK_GAME_DRAWCOLOR_H

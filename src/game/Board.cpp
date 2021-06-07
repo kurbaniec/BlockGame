@@ -7,6 +7,7 @@
 #include "Config.h"
 #include "DrawColor.h"
 #include <GL/glut.h>
+#include "algorithm"
 
 Board::Board() {
     rows = 0;
@@ -55,7 +56,7 @@ std::vector<std::vector<int>> Board::getBoard() {
 }
 
 bool Board::valid(int new_x, int new_y, const std::vector<std::vector<int>> &shape) {
-    if (new_x+shape.size() <= 0 || new_y+shape.size() <= 0 || (new_y + 1) >= rows) {
+    if (new_x + shape.size() <= 0 || new_y + shape.size() <= 0 || (new_y + 1) >= rows) {
         return false;
     }
 
@@ -86,7 +87,7 @@ bool Board::bottom(int x, int y, const std::vector<std::vector<int>> &shape) {
     for (auto i = 0; i < shape.size(); i++) {
         for (auto j = 0; j < shape[i].size(); j++) {
             if (shape[i][j] == Color::EMPTY) continue;
-            if (y + i + 1>= rows) {
+            if (y + i + 1 >= rows) {
                 return true;
             }
             if (board[y + i + 1][x + j] != Color::EMPTY) {
@@ -113,8 +114,8 @@ void Board::draw() {
     auto rectWidth = (bg[1][0] - bg[0][0]) / float(cols);
     auto rectHeight = (bg[3][1] - bg[0][1]) / float(rows);
 
-    for (auto i=0; i < board.size(); i++) {
-        for (auto j=0; j < board[i].size(); j++) {
+    for (auto i = 0; i < board.size(); i++) {
+        for (auto j = 0; j < board[i].size(); j++) {
             auto color = board[i][j];
             if (color != Color::EMPTY) {
                 // TODO filter board by callers to mitigate setColor calls
@@ -132,6 +133,34 @@ void Board::draw() {
                 glEnd();
             }
         }
+    }
+}
+
+void Board::lineClear() {
+    // Remove element while iterating
+    // See: https://stackoverflow.com/a/13102374/12347616
+    auto it = board.begin();
+    int inserts = 0;
+    while (it != board.end()) {
+        // Check if row has one or more zeroes
+        // See: https://stackoverflow.com/a/3246912/12347616
+        if (std::find((*it).begin(), (*it).end(), 0) != (*it).end()) {
+            // If yes, continue
+            ++it;
+        } else {
+            // If no, remove line
+            it = board.erase(it);
+            // Increment inserts
+            inserts++;
+        }
+    }
+
+    // Add new empty lines on top
+    // See: https://stackoverflow.com/a/48251347/12347616
+    for (auto i = 0; i < inserts; i++) {
+        std::vector<int> col;
+        col.assign(cols, 0);
+        board.insert(board.begin(), col);
     }
 }
 

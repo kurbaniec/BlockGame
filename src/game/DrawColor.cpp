@@ -17,6 +17,9 @@ void DrawColor::setColor(int color) {
         case Color::BLUE:
             glColor3f(0, 0, 1);
             break;
+        case Color::GREEN:
+            glColor3f(0, 1, 0);
+            break;
         default:
             glColor3f(1, 1, 1);
     }
