@@ -114,23 +114,26 @@ void Board::draw() {
     auto rectWidth = (bg[1][0] - bg[0][0]) / float(cols);
     auto rectHeight = (bg[3][1] - bg[0][1]) / float(rows);
 
-    for (auto i = 0; i < board.size(); i++) {
-        for (auto j = 0; j < board[i].size(); j++) {
-            auto color = board[i][j];
-            if (color != Color::EMPTY) {
-                // TODO filter board by callers to mitigate setColor calls
-                // Set draw color
-                DrawColor::setColor(color);
+    // Draw board game blocks color after color
+    // This approach mitigates `setColor` calls
+    for (auto c = 1; c <= Color_Count; c++) {
+        // Set draw color
+        DrawColor::setColor(c);
+        for (auto i = 0; i < board.size(); i++) {
+            for (auto j = 0; j < board[i].size(); j++) {
+                auto color = board[i][j];
+                if (color == c) {
 
-                auto rectX = bg[3][0] + (float(j) * rectWidth);
-                auto rectY = bg[3][1] - (float(i) * rectHeight);
+                    auto rectX = bg[3][0] + (float(j) * rectWidth);
+                    auto rectY = bg[3][1] - (float(i) * rectHeight);
 
-                glBegin(GL_QUADS);
-                glVertex3f(rectX, rectY - rectHeight, 0);                 // Left bottom
-                glVertex3f(rectX + rectWidth, rectY - rectHeight, 0);  // Right bottom
-                glVertex3f(rectX + rectWidth, rectY, 0);                  // Right Top
-                glVertex3f(rectX, rectY, 0);                                 // Left Top
-                glEnd();
+                    glBegin(GL_QUADS);
+                    glVertex3f(rectX, rectY - rectHeight, 0);                 // Left bottom
+                    glVertex3f(rectX + rectWidth, rectY - rectHeight, 0);  // Right bottom
+                    glVertex3f(rectX + rectWidth, rectY, 0);                  // Right Top
+                    glVertex3f(rectX, rectY, 0);                                 // Left Top
+                    glEnd();
+                }
             }
         }
     }
