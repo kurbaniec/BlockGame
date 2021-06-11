@@ -10,6 +10,7 @@
 class DrawColor {
 public:
     static void setColor(int color);
+    static void loadText(const char *filename);
 
     static int randomColor();
 
@@ -23,10 +24,12 @@ enum Color {
     RED = 1,
     BLUE = 2,
     GREEN = 3,
+    TEXTURE = 4
 };
 
+
 // Empty is not considered a Color
-const int Color_Count = 3;
+const int Color_Count = 4;
 
 
 #endif //BLOCK_GAME_DRAWCOLOR_H
