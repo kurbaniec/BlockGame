@@ -1,24 +1,29 @@
 #include <iostream>
 
 #include <GL/glut.h>
+#include <GL/gl.h>  
+#include <GL/glu.h> 
 #include "utils/PrintUtils.h"
 #include "game/Board.h"
 #include "game/Config.h"
 #include "game/Block.h"
 #include "game/State.h"
-
+#define ST_IMAGE_IMPLEMENTATION
+#include "utils/stb_image.h"
+#include "utils/tga.h"
 // See: https://www.gamedev.net/forums/topic/392837-spacebar-key/392837/
 #define GLUT_KEY_SPACEBAR 32
 #define GLUT_KEY_P 112
 #define GLUT_KEY_ESCAPE 27
 
 int window;
-
+GLuint texture;
 // Game state
 int state;
 // Used for delta time
 int old_t;
 float time_spent;
+
 
 void resize(int width, int height) {
     // prevent division by zero
@@ -151,7 +156,46 @@ void display() {
     // Draw active game block and board
     Block::get().draw();
     Board::get().draw();
-
+    /// <summary>
+    /// ///////////////////////////////////////////////////////////////////////////////////////
+    /// </summary>
+    auto points = std::vector<std::vector<float>>{
+        {3, 1, 0},
+        { 5,  1, 0 },
+        { 5,  3,  0 },
+        { 3, 3,  0 }
+    };
+    /*unsigned char* data = stbi_load("container.jpg", &width, &height, &nrChannels, 0)
+    
+    glGenTextures(1, &texture);
+    glBindTexture(GL_TEXTURE_2D, texture);
+   
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    if (data)
+    {
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+        
+    }
+    else
+    {
+        std::cout << "Failed to load texture" << std::endl;
+    }
+    stbi_image_free(data);*/
+    
+   
+    glEnable(GL_TEXTURE_2D);
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+    glBindTexture(GL_TEXTURE_2D, texture);
+    glBegin(GL_QUADS);
+    glTexCoord2f(0.0f, 0.0f);glVertex3f(points[0][0], points[0][1], points[0][2]);  // Left bottom  glVertex3f(-1.0f, -1.0f, 1.0f);
+    glTexCoord2f(1.0f, 0.0f);glVertex3f(points[1][0], points[1][1], points[1][2]);  // Right bottom glVertex3f(1.0f, -1.0f, 1.0f); 
+    glTexCoord2f(1.0f, 1.0f);glVertex3f(points[2][0], points[2][1], points[2][2]);  // Right Top    glVertex3f(1.0f, 1.0f, 1.0f);  
+    glTexCoord2f(0.0f, 1.0f);glVertex3f(points[3][0], points[3][1], points[3][2]);  // Left Top     glVertex3f(-1.0f, 1.0f, 1.0f); 
+    glEnd();
+    glDisable(GL_TEXTURE_2D);
     // Swap Buffers
     glutSwapBuffers();
 }
@@ -173,6 +217,44 @@ void init(int width, int height) {
     glEnable(GL_DEPTH_TEST);
     glShadeModel(GL_FLAT);
     resize(width, height);
+
+    GLsizei w, h;
+    tgaInfo* info = 0;
+    int mode;
+
+    info = tgaLoad("elf.tga");
+
+    if (info->status != TGA_OK) {
+        fprintf(stderr, "error loading texture image: %d\n", info->status);
+
+        return;
+    }
+    if (info->width != info->height) {
+        fprintf(stderr, "Image size %d x %d is not rectangular, giving up.\n",
+            info->width, info->height);
+        return;
+    }
+
+    mode = info->pixelDepth / 8;  // will be 3 for rgb, 4 for rgba
+    glGenTextures(1, &texture);
+
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    glBindTexture(GL_TEXTURE_2D, texture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+
+    // Upload the texture bitmap. 
+    w = info->width;
+    h = info->height;
+
+    GLint format = (mode == 4) ? GL_RGBA : GL_RGB;
+    glTexImage2D(GL_TEXTURE_2D, 0, format, w, h, 0, format,
+        GL_UNSIGNED_BYTE, info->imageData);
+   
+    tgaDestroy(info);
 }
 
 

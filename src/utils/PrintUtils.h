@@ -13,14 +13,6 @@ template<typename T>
 void print(T t) {
     std::cout << t << std::endl;
 }
-
-template<typename T, typename... Args>
-void print(T t, Args... args) {
-    std::cout << t;
-    printer(args...);
-    std::cout << std::endl;
-}
-
 template<typename T>
 void printer(T t) {
     std::cout << t;
@@ -30,6 +22,13 @@ template<typename T, typename... Args>
 void printer(T t, Args... args) {
     std::cout << t;
     printer(args...);
+}
+
+template<typename T, typename... Args>
+void print(T t, Args... args) {
+    std::cout << t;
+    printer(args...);
+    std::cout << std::endl;
 }
 
 template<typename T>
