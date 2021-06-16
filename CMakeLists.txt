@@ -27,3 +27,8 @@ target_link_libraries(${PROJECT_NAME} OpenGL::GL GLUT::GLUT)
 add_custom_command(TARGET ${PROJECT_NAME}
         POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different
         "${PROJECT_SOURCE_DIR}/dependencies/freeglut/bin/x64/freeglut.dll" ${CMAKE_BINARY_DIR})
+#Copy Images to output
+#https://stackoverflow.com/questions/13429656/how-to-copy-contents-of-a-directory-into-build-directory-after-make-with-cmake
+add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD
+                   COMMAND ${CMAKE_COMMAND} -E copy_directory
+                       ${CMAKE_SOURCE_DIR}/src/myimages ${CMAKE_BINARY_DIR})
