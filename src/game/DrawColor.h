@@ -6,11 +6,14 @@
 #define BLOCK_GAME_DRAWCOLOR_H
 
 #include <random>
+#include <GL/glut.h>
+#include <GL/gl.h>  
+#include <GL/glu.h> 
 
 class DrawColor {
 public:
     static void setColor(int color);
-    static void loadText(const char *filename);
+    static GLuint loadText(const char *filename);
 
     static int randomColor();
 
@@ -24,7 +27,7 @@ enum Color {
     RED = 1,
     BLUE = 2,
     GREEN = 3,
-    TEXTURE = 4
+    ORANGE = 4
 };
 
 

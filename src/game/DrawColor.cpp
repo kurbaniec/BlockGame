@@ -18,9 +18,10 @@ unsigned char* data = loadBMPRaw("C:\\Users\\jb\\Desktop\\CGE_Projekt\\BlockGame
 GLuint textureID;
 */
 
-GLuint texture;
 
-void DrawColor::loadText(const char *filename) {
+
+GLuint DrawColor::loadText(const char *filename) {
+    GLuint texture;
     GLsizei w, h;
     tgaInfo* info = 0;
     int mode;
@@ -47,6 +48,7 @@ void DrawColor::loadText(const char *filename) {
         GL_UNSIGNED_BYTE, info->imageData);
 
     tgaDestroy(info);
+    return texture;
 }
 
 void DrawColor::setColor(int color) {
@@ -54,39 +56,30 @@ void DrawColor::setColor(int color) {
     switch (color) {
         case Color::RED:
             //glColor3f(1, 0, 0);
-            loadText("tile_red.tga");
             glEnable(GL_TEXTURE_2D);
             glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
-            glBindTexture(GL_TEXTURE_2D, texture);
+            glBindTexture(GL_TEXTURE_2D, loadText("tile_red.tga"));
 
             break;
         case Color::BLUE:
-            //glColor3f(0, 0, 1);
-            loadText("tile_blue.tga");           
+            //glColor3f(0, 0, 1);           
             glEnable(GL_TEXTURE_2D);
             glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
-            glBindTexture(GL_TEXTURE_2D, texture);
+            glBindTexture(GL_TEXTURE_2D, loadText("tile_yellow.tga"));
 
             break;
         case Color::GREEN:
             //glColor3f(0, 1, 0);
-            loadText("tile_green.tga");
             glEnable(GL_TEXTURE_2D);
             glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
-            glBindTexture(GL_TEXTURE_2D, texture);
+            glBindTexture(GL_TEXTURE_2D, loadText("tile_green.tga"));
 
             break;
-        case Color::TEXTURE:
-            /*
-            glGenTextures(1, &textureID);
-            // "Bind" the newly created texture : all future texture functions will modify this texture
-            glBindTexture(GL_TEXTURE_2D, textureID);
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 40, 40, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-            */
-            loadText("tile_orange.tga");
+        case Color::ORANGE:
+            //glColor3f(0, 1, 0);
             glEnable(GL_TEXTURE_2D);
             glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
-            glBindTexture(GL_TEXTURE_2D, texture);
+            glBindTexture(GL_TEXTURE_2D, loadText("tile_orange.tga"));
 
             break;
         default:
