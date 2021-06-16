@@ -1,9 +1,9 @@
 #include <GL/glut.h>
 #include "MyTexture.h"
-#include <iostream>
+
 #include "../utils/tga.h"
 
-GLuint MyTexture::bindOne(const char* filename)
+GLuint MyTexture::bindTexture(const char* filename,int number)
 {
     GLsizei w, h;
     GLuint texture;
@@ -14,9 +14,9 @@ GLuint MyTexture::bindOne(const char* filename)
 
 
     mode = info->pixelDepth / 8;  // will be 3 for rgb, 4 for rgba
-    glGenTextures(1, &texture);
+    glGenTextures(number, &texture);
 
-    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    glPixelStorei(GL_UNPACK_ALIGNMENT, number);
     glBindTexture(GL_TEXTURE_2D, texture);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);

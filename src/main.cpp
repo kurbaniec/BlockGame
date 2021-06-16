@@ -14,9 +14,13 @@
 #define GLUT_KEY_SPACEBAR 32
 #define GLUT_KEY_P 112
 #define GLUT_KEY_ESCAPE 27
+#define GLUT_KEY_a 97
+
 
 int window;
 GLuint texture;
+float rotation_x, rotation_y, rotation_z;
+bool animating = true;
 // Game state
 int state;
 // Used for delta time
@@ -57,6 +61,15 @@ void keyPressed(unsigned char key, int x, int y) {
                 print("Continue");
             }
             break;
+        case GLUT_KEY_a:
+            if(animating){
+                animating = false;
+            }
+            else {
+                animating = true;
+            }
+            break;
+        
     }
     // Events that apply to only certain states
     switch (state) {
@@ -155,13 +168,26 @@ void display() {
     // Draw active game block and board
     Block::get().draw();
     Board::get().draw();
-    
+
+    glTranslatef(4.0, 2.0, 0.2);
+    glRotatef(rotation_x, 1, 0, 0);
+    glRotatef(rotation_y, 0, 1, 0);
+    glRotatef(rotation_z, 0, 0, 1);
     Logo::quadLogo(texture);
+    glDisable(GL_LIGHTING);
+    if (animating) {
+        //rotation_x += 0.2f;
+        rotation_y += 0.01f;
+        //rotation_z += 0.1f;
+        //glutPostRedisplay();
+    }
+
 
     glutSwapBuffers();
 }
 
 void init(int width, int height) {
+    
     // Setup game logic
     state = State::PLAY;
     Board::get().setup(20, 10);
@@ -178,7 +204,8 @@ void init(int width, int height) {
     glEnable(GL_DEPTH_TEST);
     glShadeModel(GL_FLAT);
     resize(width, height);
-    texture = MyTexture::bindOne("elf.tga");
+    texture = MyTexture::bindTexture("myimages/elf.tga",1);
+    rotation_x = rotation_y = rotation_z = 0.0;
    
 }
 
