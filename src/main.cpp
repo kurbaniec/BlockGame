@@ -13,12 +13,15 @@
 #include "game/Logo.h"
 #include <GL/freeglut_ext.h>
 #include <string>
+#include <irrKlang.h>
 // See: https://www.gamedev.net/forums/topic/392837-spacebar-key/392837/
 #define GLUT_KEY_SPACEBAR 32
 #define GLUT_KEY_P 112
 #define GLUT_KEY_ESCAPE 27
 #define GLUT_KEY_a 97
 
+irrklang::ISoundEngine* SoundEngine = irrklang::createIrrKlangDevice();
+irrklang::ISound* sound;
 
 int window;
 GLuint texture;
@@ -60,10 +63,12 @@ void keyPressed(unsigned char key, int x, int y) {
             if (state == PLAY) {
                 state = PAUSE;
                 animating = false;
+                SoundEngine->setAllSoundsPaused();
                 print("Paused");
             } else {
                 state = PLAY;
                 animating = true;
+                SoundEngine->setAllSoundsPaused(false);
                 print("Continue");
             }
             break;
@@ -85,17 +90,22 @@ void keyPressed(unsigned char key, int x, int y) {
             switch (key) {
                 case GLUT_KEY_SPACEBAR:
                     Block::get().rotate();
+                    
                     break;
             }
             break;
         case GAMEOVER:
+            
             switch (key) {
                 case GLUT_KEY_SPACEBAR:
                     // Restart game
+
                     Board::get().reset();
                     Block::get().reset();
                     internScore = 0;
+                   
                     state = PLAY;
+                  
                     break;
             }
             break;
@@ -108,6 +118,7 @@ static void specialKeyPressed(int key, int x, int y) {
         case GLUT_KEY_DOWN:
             // Block::get().moveDown();
             Block::get().drop();
+            
             break;
         case GLUT_KEY_LEFT:
             Block::get().moveLeft();
@@ -185,19 +196,19 @@ void display() {
         }
 
         // Clear full game block lines
+        int counter = internScore;
         internScore += Board::get().lineClear();
+        if (internScore > counter) {
+            SoundEngine->play2D("audio/clear.wav");
+        }
     }
 
     // Draw active game block and board
     Block::get().draw();
     Board::get().draw();
 
-    
-    
-    
-    
-
-    //Score //https://flex.phys.tohoku.ac.jp/texi/glut/glutStrokeCharacter.3xglut.html
+    //Score 
+    //https://flex.phys.tohoku.ac.jp/texi/glut/glutStrokeCharacter.3xglut.html
     glColor3f(1, 0, 0);
     void* font = GLUT_STROKE_MONO_ROMAN;
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -218,37 +229,9 @@ void display() {
     Logo::quadLogo(texture);
     glDisable(GL_LIGHTING);
     if (animating) {
-        //rotation_x += 0.2f;
         rotation_y += 0.01f;
-        //rotation_z += 0.1f;
-        //glutPostRedisplay();
     }
-    
-    /*
-    unsigned char ta[] = "TestText";
-    unsigned char* t = ta;
-    glTranslatef(3, 3, 0);
-    //glutStrokeString(GLUT_STROKE_ROMAN,t);
-    glColor3f(1.0, 0.0, 0.0);
-    glRasterPos2i(10, 10);
-    std::string s = "Respect mah authoritah!";
-    void* font = GLUT_BITMAP_9_BY_15;
-    for (std::string::iterator i = s.begin(); i != s.end(); ++i)
-    {
-        char c = *i;
-        glutBitmapCharacter(font, c);
-    }
-    */
-
    
-   // glTranslatef(-10, -3, 0.3);
-   
-    
-
-    //void* font = GLUT_BITMAP_9_BY_15;
-    //glutBitmapCharacter(font, 97);
-    
-    
     glutSwapBuffers();
 }
 
@@ -271,6 +254,7 @@ void init(int width, int height) {
     glEnable(GL_DEPTH_TEST);
     glShadeModel(GL_FLAT);
     resize(width, height);
+    sound = SoundEngine->play2D("audio/Theme1.mp3", true);
     texture = MyTexture::bindTexture("myimages/Block.tga",1);
     rotation_x = rotation_y = rotation_z = 0.0;
    
