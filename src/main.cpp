@@ -1,24 +1,39 @@
 #include <iostream>
 
 #include <GL/glut.h>
+#include <GL/gl.h>  
+#include <GL/glu.h> 
+#include <GL/freeglut.h>
 #include "utils/PrintUtils.h"
 #include "game/Board.h"
 #include "game/Config.h"
 #include "game/Block.h"
 #include "game/State.h"
-
+#include "game/MyTexture.h"
+#include "game/Logo.h"
+#include <GL/freeglut_ext.h>
+#include <string>
+#include <irrKlang.h>
 // See: https://www.gamedev.net/forums/topic/392837-spacebar-key/392837/
 #define GLUT_KEY_SPACEBAR 32
 #define GLUT_KEY_P 112
 #define GLUT_KEY_ESCAPE 27
+#define GLUT_KEY_a 97
+
+irrklang::ISoundEngine* SoundEngine = irrklang::createIrrKlangDevice();
+irrklang::ISound* sound;
 
 int window;
-
+GLuint texture;
+float rotation_x, rotation_y, rotation_z;
+bool animating = true;
 // Game state
 int state;
 // Used for delta time
 int old_t;
 float time_spent;
+int internScore = 0;
+
 
 void resize(int width, int height) {
     // prevent division by zero
@@ -47,12 +62,27 @@ void keyPressed(unsigned char key, int x, int y) {
         case GLUT_KEY_P:
             if (state == PLAY) {
                 state = PAUSE;
+                animating = false;
+                SoundEngine->setAllSoundsPaused();
                 print("Paused");
             } else {
                 state = PLAY;
+                animating = true;
+                SoundEngine->setAllSoundsPaused(false);
                 print("Continue");
             }
             break;
+        case GLUT_KEY_a:
+            if (state == PLAY) {
+                if (animating) {
+                    animating = false;
+                }
+                else {
+                    animating = true;
+                }
+            }
+            break;
+        
     }
     // Events that apply to only certain states
     switch (state) {
@@ -60,16 +90,22 @@ void keyPressed(unsigned char key, int x, int y) {
             switch (key) {
                 case GLUT_KEY_SPACEBAR:
                     Block::get().rotate();
+                    
                     break;
             }
             break;
         case GAMEOVER:
+            
             switch (key) {
                 case GLUT_KEY_SPACEBAR:
                     // Restart game
+
                     Board::get().reset();
                     Block::get().reset();
+                    internScore = 0;
+                   
                     state = PLAY;
+                  
                     break;
             }
             break;
@@ -82,6 +118,7 @@ static void specialKeyPressed(int key, int x, int y) {
         case GLUT_KEY_DOWN:
             // Block::get().moveDown();
             Block::get().drop();
+            
             break;
         case GLUT_KEY_LEFT:
             Block::get().moveLeft();
@@ -100,7 +137,19 @@ float getDeltaTime() {
     old_t = t;
     return dt;
 }
+void renderStrokeFontString(float x,float y,float z,void* font,char* string) {
 
+    char* c;
+    glPushMatrix();
+    glTranslatef(x, y, z);
+    glScalef(1 / 250.38, 1 / 250.38, 1 / 250.38);
+
+    for (c = string; *c != '\0'; c++) {
+        glutStrokeCharacter(font, *c);
+    }
+
+    glPopMatrix();
+}
 void display() {
     auto dt = getDeltaTime();
     time_spent += dt;
@@ -108,7 +157,7 @@ void display() {
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
-
+    
     // Push backgroundPoints away from camera
     glTranslatef(0.0, 0.0, -10.1);
 
@@ -135,28 +184,60 @@ void display() {
         if (Block::get().bottom()) {
             Block::get().saveToBoard();
             Block::get().reset();
+
             // Print board
             print2dVec(Board::get().getBoard());
             // Check if game is over
             if (Block::get().end()) {
                 state = GAMEOVER;
                 print("Game Over");
+                
             }
         }
 
         // Clear full game block lines
-        Board::get().lineClear();
+        int counter = internScore;
+        internScore += Board::get().lineClear();
+        if (internScore > counter) {
+            SoundEngine->play2D("audio/clear.wav");
+        }
     }
 
     // Draw active game block and board
     Block::get().draw();
     Board::get().draw();
 
-    // Swap Buffers
+    //Score 
+    //https://flex.phys.tohoku.ac.jp/texi/glut/glutStrokeCharacter.3xglut.html
+    glColor3f(1, 0, 0);
+    void* font = GLUT_STROKE_MONO_ROMAN;
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_BLEND);
+    glEnable(GL_LINE_SMOOTH);
+    glLineWidth(5.0);
+    renderStrokeFontString(2.7, -0.2, 0, font, (char*)"Score");
+    std::string tmp = std::to_string(internScore);
+    char const* num_char = tmp.c_str();
+    glColor3f(0.8, 0, 0);
+    renderStrokeFontString(3.5, -1, 0, font, (char*)num_char);
+
+    //GameLogo Animation
+    glTranslatef(3.8, 2.0, 0.2);
+    glRotatef(rotation_x, 1, 0, 0); 
+    glRotatef(rotation_y, 0, 1, 0);
+    glRotatef(rotation_z, 0, 0, 1);
+    Logo::quadLogo(texture);
+    glDisable(GL_LIGHTING);
+    if (animating) {
+        rotation_y += 0.01f;
+    }
+   
     glutSwapBuffers();
 }
 
+
 void init(int width, int height) {
+    
     // Setup game logic
     state = State::PLAY;
     Board::get().setup(20, 10);
@@ -173,6 +254,10 @@ void init(int width, int height) {
     glEnable(GL_DEPTH_TEST);
     glShadeModel(GL_FLAT);
     resize(width, height);
+    sound = SoundEngine->play2D("audio/Theme1.mp3", true);
+    texture = MyTexture::bindTexture("myimages/Block.tga",1);
+    rotation_x = rotation_y = rotation_z = 0.0;
+   
 }
 
 
