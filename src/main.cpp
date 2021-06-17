@@ -3,6 +3,7 @@
 #include <GL/glut.h>
 #include <GL/gl.h>  
 #include <GL/glu.h> 
+#include <GL/freeglut.h>
 #include "utils/PrintUtils.h"
 #include "game/Board.h"
 #include "game/Config.h"
@@ -10,6 +11,8 @@
 #include "game/State.h"
 #include "game/MyTexture.h"
 #include "game/Logo.h"
+#include <GL/freeglut_ext.h>
+#include <string>
 // See: https://www.gamedev.net/forums/topic/392837-spacebar-key/392837/
 #define GLUT_KEY_SPACEBAR 32
 #define GLUT_KEY_P 112
@@ -26,6 +29,7 @@ int state;
 // Used for delta time
 int old_t;
 float time_spent;
+int internScore = 0;
 
 
 void resize(int width, int height) {
@@ -55,18 +59,22 @@ void keyPressed(unsigned char key, int x, int y) {
         case GLUT_KEY_P:
             if (state == PLAY) {
                 state = PAUSE;
+                animating = false;
                 print("Paused");
             } else {
                 state = PLAY;
+                animating = true;
                 print("Continue");
             }
             break;
         case GLUT_KEY_a:
-            if(animating){
-                animating = false;
-            }
-            else {
-                animating = true;
+            if (state == PLAY) {
+                if (animating) {
+                    animating = false;
+                }
+                else {
+                    animating = true;
+                }
             }
             break;
         
@@ -86,6 +94,7 @@ void keyPressed(unsigned char key, int x, int y) {
                     // Restart game
                     Board::get().reset();
                     Block::get().reset();
+                    internScore = 0;
                     state = PLAY;
                     break;
             }
@@ -117,7 +126,19 @@ float getDeltaTime() {
     old_t = t;
     return dt;
 }
+void renderStrokeFontString(float x,float y,float z,void* font,char* string) {
 
+    char* c;
+    glPushMatrix();
+    glTranslatef(x, y, z);
+    glScalef(1 / 250.38, 1 / 250.38, 1 / 250.38);
+
+    for (c = string; *c != '\0'; c++) {
+        glutStrokeCharacter(font, *c);
+    }
+
+    glPopMatrix();
+}
 void display() {
     auto dt = getDeltaTime();
     time_spent += dt;
@@ -125,7 +146,7 @@ void display() {
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
-
+    
     // Push backgroundPoints away from camera
     glTranslatef(0.0, 0.0, -10.1);
 
@@ -152,25 +173,46 @@ void display() {
         if (Block::get().bottom()) {
             Block::get().saveToBoard();
             Block::get().reset();
+
             // Print board
             print2dVec(Board::get().getBoard());
             // Check if game is over
             if (Block::get().end()) {
                 state = GAMEOVER;
                 print("Game Over");
+                
             }
         }
 
         // Clear full game block lines
-        Board::get().lineClear();
+        internScore += Board::get().lineClear();
     }
 
     // Draw active game block and board
     Block::get().draw();
     Board::get().draw();
 
-    glTranslatef(4.0, 2.0, 0.2);
-    glRotatef(rotation_x, 1, 0, 0);
+    
+    
+    
+    
+
+    //Score //https://flex.phys.tohoku.ac.jp/texi/glut/glutStrokeCharacter.3xglut.html
+    glColor3f(1, 0, 0);
+    void* font = GLUT_STROKE_MONO_ROMAN;
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_BLEND);
+    glEnable(GL_LINE_SMOOTH);
+    glLineWidth(5.0);
+    renderStrokeFontString(2.7, -0.2, 0, font, (char*)"Score");
+    std::string tmp = std::to_string(internScore);
+    char const* num_char = tmp.c_str();
+    glColor3f(0.8, 0, 0);
+    renderStrokeFontString(3.5, -1, 0, font, (char*)num_char);
+
+    //GameLogo Animation
+    glTranslatef(3.8, 2.0, 0.2);
+    glRotatef(rotation_x, 1, 0, 0); 
     glRotatef(rotation_y, 0, 1, 0);
     glRotatef(rotation_z, 0, 0, 1);
     Logo::quadLogo(texture);
@@ -181,10 +223,35 @@ void display() {
         //rotation_z += 0.1f;
         //glutPostRedisplay();
     }
+    
+    /*
+    unsigned char ta[] = "TestText";
+    unsigned char* t = ta;
+    glTranslatef(3, 3, 0);
+    //glutStrokeString(GLUT_STROKE_ROMAN,t);
+    glColor3f(1.0, 0.0, 0.0);
+    glRasterPos2i(10, 10);
+    std::string s = "Respect mah authoritah!";
+    void* font = GLUT_BITMAP_9_BY_15;
+    for (std::string::iterator i = s.begin(); i != s.end(); ++i)
+    {
+        char c = *i;
+        glutBitmapCharacter(font, c);
+    }
+    */
 
+   
+   // glTranslatef(-10, -3, 0.3);
+   
+    
 
+    //void* font = GLUT_BITMAP_9_BY_15;
+    //glutBitmapCharacter(font, 97);
+    
+    
     glutSwapBuffers();
 }
+
 
 void init(int width, int height) {
     
@@ -204,7 +271,7 @@ void init(int width, int height) {
     glEnable(GL_DEPTH_TEST);
     glShadeModel(GL_FLAT);
     resize(width, height);
-    texture = MyTexture::bindTexture("myimages/elf.tga",1);
+    texture = MyTexture::bindTexture("myimages/Block.tga",1);
     rotation_x = rotation_y = rotation_z = 0.0;
    
 }

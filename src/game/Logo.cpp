@@ -4,6 +4,7 @@
 #include <GL/glu.h> 
 #include <vector>
 #include "Mats_Light.h"
+#include <GL/freeglut_ext.h>
 
 void Logo::quadLogo(GLuint texture) {
     auto points = std::vector<std::vector<float>>{
@@ -15,7 +16,7 @@ void Logo::quadLogo(GLuint texture) {
     glEnable(GL_TEXTURE_2D);
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
     glBindTexture(GL_TEXTURE_2D, texture);
-    
+   
     glBegin(GL_QUADS);
     //Front
     /*
@@ -47,10 +48,11 @@ void Logo::quadLogo(GLuint texture) {
     
     glEnd();
     glDisable(GL_TEXTURE_2D);
-    
+
+    glColor3f(1, 0, 0.0);
     Mats_Light::setlight(1);
     Mats_Light::setmats(1);
-
+    
     glBegin(GL_QUADS);
     // right face
     //glTexCoord2f(1.0f, 0.0f); 
@@ -66,6 +68,7 @@ void Logo::quadLogo(GLuint texture) {
     glVertex3f(1.0f, 1.0f, -1.0f);
     glVertex3f(1.0f, 1.0f, 1.0f);
     glVertex3f(1.0f, -1.0f, 1.0f);
+    
 
     glVertex3f(-1.0f, -1.0f, -1.0f);
     glVertex3f(-1.0f, -1.0f, 1.0f);
