@@ -119,7 +119,7 @@ void display() {
 
     glEnable(GL_TEXTURE_2D);
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
-    glBindTexture(GL_TEXTURE_2D, DrawColor::loadText("backgroundtexturtest.tga"));
+    glBindTexture(GL_TEXTURE_2D, DrawColor::loadText("BackgroundTextureGrey.tga"));
     
     glBegin(GL_QUADS);
     glTexCoord2f(0.0f, 0.0f); glVertex3f(bg[0][0], bg[0][1], bg[0][2]);  // Left bottom
@@ -150,6 +150,20 @@ void display() {
             if (Block::get().end()) {
                 state = GAMEOVER;
                 print("Game Over");
+                // TEXTURE GAME OVER
+
+                glEnable(GL_TEXTURE_2D);
+                glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+                glBindTexture(GL_TEXTURE_2D, DrawColor::loadText("gameover.tga"));
+
+                glBegin(GL_QUADS);
+                glTexCoord2f(0.0f, 0.0f); glVertex3f(bg[0][0], bg[0][1], bg[0][2]);  // Left bottom
+                glTexCoord2f(1.0f, 0.0f); glVertex3f(bg[1][0], bg[1][1], bg[1][2]);  // Right bottom
+                glTexCoord2f(1.0f, 1.0f); glVertex3f(bg[2][0], bg[2][1], bg[2][2]);  // Right Top
+                glTexCoord2f(0.0f, 1.0f); glVertex3f(bg[3][0], bg[3][1], bg[3][2]);  // Left Top
+                glEnd();
+                glDisable(GL_TEXTURE_2D);
+
             }
         }
 

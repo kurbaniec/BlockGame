@@ -58,28 +58,49 @@ void DrawColor::setColor(int color) {
             //glColor3f(1, 0, 0);
             glEnable(GL_TEXTURE_2D);
             glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
-            glBindTexture(GL_TEXTURE_2D, loadText("tile_red.tga"));
+            glBindTexture(GL_TEXTURE_2D, loadText("Red.tga"));
 
             break;
         case Color::BLUE:
             //glColor3f(0, 0, 1);           
             glEnable(GL_TEXTURE_2D);
             glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
-            glBindTexture(GL_TEXTURE_2D, loadText("tile_yellow.tga"));
+            glBindTexture(GL_TEXTURE_2D, loadText("Blue.tga"));
 
             break;
         case Color::GREEN:
             //glColor3f(0, 1, 0);
             glEnable(GL_TEXTURE_2D);
             glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
-            glBindTexture(GL_TEXTURE_2D, loadText("tile_green.tga"));
+            glBindTexture(GL_TEXTURE_2D, loadText("Green.tga"));
 
             break;
         case Color::ORANGE:
             //glColor3f(0, 1, 0);
             glEnable(GL_TEXTURE_2D);
             glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
-            glBindTexture(GL_TEXTURE_2D, loadText("tile_orange.tga"));
+            glBindTexture(GL_TEXTURE_2D, loadText("Orange.tga"));
+
+            break;
+        case Color::YELLOW:
+            //glColor3f(0, 1, 0);
+            glEnable(GL_TEXTURE_2D);
+            glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+            glBindTexture(GL_TEXTURE_2D, loadText("Yellow.tga"));
+
+            break;
+        case Color::PURPLE:
+            //glColor3f(0, 1, 0);
+            glEnable(GL_TEXTURE_2D);
+            glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+            glBindTexture(GL_TEXTURE_2D, loadText("Purple.tga"));
+
+            break;
+        case Color::DARKBLUE:
+            //glColor3f(0, 1, 0);
+            glEnable(GL_TEXTURE_2D);
+            glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+            glBindTexture(GL_TEXTURE_2D, loadText("DarkBlue.tga"));
 
             break;
         default:
