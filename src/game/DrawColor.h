@@ -6,6 +6,9 @@
 #define BLOCK_GAME_DRAWCOLOR_H
 
 #include <random>
+#include <GL/glut.h>
+#include <GL/gl.h>  
+#include <GL/glu.h> 
 
 class DrawColor {
 public:
@@ -23,10 +26,16 @@ enum Color {
     RED = 1,
     BLUE = 2,
     GREEN = 3,
+    ORANGE = 4,
+    YELLOW = 5,
+    DARKBLUE = 6,
+    PURPLE = 7
+
 };
 
+
 // Empty is not considered a Color
-const int Color_Count = 3;
+const int Color_Count = 7;
 
 
 #endif //BLOCK_GAME_DRAWCOLOR_H

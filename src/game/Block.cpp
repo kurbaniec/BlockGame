@@ -55,11 +55,13 @@ void Block::draw() {
                 auto rectY = bg[3][1] - (float(y + i) * rectHeight);
 
                 glBegin(GL_QUADS);
-                glVertex3f(rectX, rectY - rectHeight, 0);                 // Left bottom
-                glVertex3f(rectX + rectWidth, rectY - rectHeight, 0);  // Right bottom
-                glVertex3f(rectX + rectWidth, rectY, 0);                  // Right Top
-                glVertex3f(rectX, rectY, 0);                                 // Left Top
+                glTexCoord2f(0.0f, 0.0f); glVertex3f(rectX, rectY - rectHeight, 0);                 // Left bottom
+                glTexCoord2f(1.0f, 0.0f); glVertex3f(rectX + rectWidth, rectY - rectHeight, 0);  // Right bottom
+                glTexCoord2f(1.0f, 1.0f); glVertex3f(rectX + rectWidth, rectY, 0);                  // Right Top
+                glTexCoord2f(0.0f, 1.0f); glVertex3f(rectX, rectY, 0);                                 // Left Top
+
                 glEnd();
+                glDisable(GL_TEXTURE_2D);
             }
         }
     }

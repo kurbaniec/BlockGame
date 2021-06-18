@@ -12,7 +12,9 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 #   https://stackoverflow.com/a/27175822/12347616
 set(CMAKE_SUPPRESS_REGENERATION true)
 
+
 add_executable(${PROJECT_NAME} src/main.cpp src/utils/PrintUtils.h src/game/Board.cpp src/game/Board.h src/game/Config.cpp src/game/Config.h src/game/Block.cpp src/game/Block.h src/utils/MathUtils.cpp src/utils/MathUtils.h src/game/DrawColor.cpp src/game/DrawColor.h src/game/Shapes.cpp src/game/Shapes.h src/game/State.h src/utils/tga.cpp src/utils/tga.h src/game/Logo.cpp src/game/Logo.h src/game/MyTexture.cpp src/game/MyTexture.h src/game/Mats_Light.cpp src/game/Mats_Light.h)
+
 set(OPENGL_LIBRARY_DIR ${PROJECT_SOURCE_DIR}/dependencies/freeglut/lib/x64)
 set(IRRKLANG_LIBRARY_DIR ${PROJECT_SOURCE_DIR}/dependencies/irrKlang/lib/winx64-visualStudio)
 

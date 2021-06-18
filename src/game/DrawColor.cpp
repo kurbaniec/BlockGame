@@ -3,27 +3,70 @@
 //
 
 #include <GL/glut.h>
+#include <GL/gl.h>  
+#include <GL/glu.h> 
 #include "DrawColor.h"
 #include <random>
+#include "../utils/tga.h"
+#include "MyTexture.h"
 
 std::random_device DrawColor::random_device;
 std::mt19937 DrawColor::engine(DrawColor::random_device());
 
+
+
 void DrawColor::setColor(int color) {
+    
     switch (color) {
         case Color::RED:
-            glColor3f(1, 0, 0);
+            //glColor3f(1, 0, 0);
+            glEnable(GL_TEXTURE_2D);
+            glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+            glBindTexture(GL_TEXTURE_2D, MyTexture::bindTexture("myimages/Red.tga",1));
+
             break;
         case Color::BLUE:
-            glColor3f(0, 0, 1);
+            //glColor3f(0, 0, 1);           
+            glEnable(GL_TEXTURE_2D);
+            glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+            glBindTexture(GL_TEXTURE_2D, MyTexture::bindTexture("myimages/Blue.tga", 1));
+
             break;
         case Color::GREEN:
-            glColor3f(0, 1, 0);
+            //glColor3f(0, 1, 0);
+            glEnable(GL_TEXTURE_2D);
+            glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+            glBindTexture(GL_TEXTURE_2D, MyTexture::bindTexture("myimages/Green.tga", 1));
+            break;
+        case Color::ORANGE:
+            //glColor3f(0, 1, 0);
+            glEnable(GL_TEXTURE_2D);
+            glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+            glBindTexture(GL_TEXTURE_2D, MyTexture::bindTexture("myimages/Orange.tga", 1));
+            break;
+        case Color::YELLOW:
+            //glColor3f(0, 1, 0);
+            glEnable(GL_TEXTURE_2D);
+            glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+            glBindTexture(GL_TEXTURE_2D, MyTexture::bindTexture("myimages/Yellow.tga", 1));
+            break;
+        case Color::PURPLE:
+            //glColor3f(0, 1, 0);
+            glEnable(GL_TEXTURE_2D);
+            glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+            glBindTexture(GL_TEXTURE_2D, MyTexture::bindTexture("myimages/Purple.tga", 1));
+            break;
+        case Color::DARKBLUE:
+            //glColor3f(0, 1, 0);
+            glEnable(GL_TEXTURE_2D);
+            glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+            glBindTexture(GL_TEXTURE_2D, MyTexture::bindTexture("myimages/DarkBlue.tga", 1));
             break;
         default:
             glColor3f(1, 1, 1);
     }
 }
+
 
 int DrawColor::randomColor() {
     // Random with C++ 11
