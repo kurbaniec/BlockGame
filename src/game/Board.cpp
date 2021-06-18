@@ -139,7 +139,7 @@ void Board::draw() {
     }
 }
 
-void Board::lineClear() {
+int Board::lineClear() {
     // Remove element while iterating
     // See: https://stackoverflow.com/a/13102374/12347616
     auto it = board.begin();
@@ -155,6 +155,7 @@ void Board::lineClear() {
             it = board.erase(it);
             // Increment inserts
             inserts++;
+
         }
     }
 
@@ -165,6 +166,7 @@ void Board::lineClear() {
         col.assign(cols, 0);
         board.insert(board.begin(), col);
     }
+    return inserts;
 }
 
 

@@ -32,8 +32,6 @@ void print(T t, Args... args) {
     std::cout << std::endl;
 }
 
-
-
 template<typename T>
 void print2dVec(std::vector<std::vector<T>> vec) {
     // See: https://stackoverflow.com/a/26937624/12347616
