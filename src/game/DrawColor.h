@@ -13,7 +13,6 @@
 class DrawColor {
 public:
     static void setColor(int color);
-    static GLuint loadText(const char *filename);
 
     static int randomColor();
 

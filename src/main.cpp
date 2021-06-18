@@ -168,7 +168,7 @@ void display() {
 
     glEnable(GL_TEXTURE_2D);
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
-    glBindTexture(GL_TEXTURE_2D, MyTexture::bindTexture("BackgroundTextureGrey.tga",1));
+    glBindTexture(GL_TEXTURE_2D, MyTexture::bindTexture("myimages/BackgroundTextureGrey.tga",1));
     
     glBegin(GL_QUADS);
     glTexCoord2f(0.0f, 0.0f); glVertex3f(bg[0][0], bg[0][1], bg[0][2]);  // Left bottom
@@ -205,7 +205,7 @@ void display() {
 
                 glEnable(GL_TEXTURE_2D);
                 glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
-                glBindTexture(GL_TEXTURE_2D, MyTexture::bindTexture("gameover.tga",1));
+                glBindTexture(GL_TEXTURE_2D, MyTexture::bindTexture("myimages/gameover.tga",1));
 
                 glBegin(GL_QUADS);
                 glTexCoord2f(0.0f, 0.0f); glVertex3f(bg[0][0], bg[0][1], bg[0][2]);  // Left bottom
