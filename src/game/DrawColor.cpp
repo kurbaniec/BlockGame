@@ -22,45 +22,45 @@ void DrawColor::setColor(int color) {
             //glColor3f(1, 0, 0);
             glEnable(GL_TEXTURE_2D);
             glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
-            glBindTexture(GL_TEXTURE_2D, MyTexture::bindTexture("myimages/Red.tga",1));
+            glBindTexture(GL_TEXTURE_2D, MyTexture::bindTexture("myimages/RedNew.tga",1));
 
             break;
         case Color::BLUE:
             //glColor3f(0, 0, 1);           
             glEnable(GL_TEXTURE_2D);
             glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
-            glBindTexture(GL_TEXTURE_2D, MyTexture::bindTexture("myimages/Blue.tga", 1));
+            glBindTexture(GL_TEXTURE_2D, MyTexture::bindTexture("myimages/BlueCyan.tga", 1));
 
             break;
         case Color::GREEN:
             //glColor3f(0, 1, 0);
             glEnable(GL_TEXTURE_2D);
             glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
-            glBindTexture(GL_TEXTURE_2D, MyTexture::bindTexture("myimages/Green.tga", 1));
+            glBindTexture(GL_TEXTURE_2D, MyTexture::bindTexture("myimages/GreenNew.tga", 1));
             break;
         case Color::ORANGE:
             //glColor3f(0, 1, 0);
             glEnable(GL_TEXTURE_2D);
             glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
-            glBindTexture(GL_TEXTURE_2D, MyTexture::bindTexture("myimages/Orange.tga", 1));
+            glBindTexture(GL_TEXTURE_2D, MyTexture::bindTexture("myimages/OrangeNew.tga", 1));
             break;
         case Color::YELLOW:
             //glColor3f(0, 1, 0);
             glEnable(GL_TEXTURE_2D);
             glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
-            glBindTexture(GL_TEXTURE_2D, MyTexture::bindTexture("myimages/Yellow.tga", 1));
+            glBindTexture(GL_TEXTURE_2D, MyTexture::bindTexture("myimages/YellowNew.tga", 1));
             break;
         case Color::PURPLE:
             //glColor3f(0, 1, 0);
             glEnable(GL_TEXTURE_2D);
             glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
-            glBindTexture(GL_TEXTURE_2D, MyTexture::bindTexture("myimages/Purple.tga", 1));
+            glBindTexture(GL_TEXTURE_2D, MyTexture::bindTexture("myimages/PurpleNew.tga", 1));
             break;
         case Color::DARKBLUE:
             //glColor3f(0, 1, 0);
             glEnable(GL_TEXTURE_2D);
             glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
-            glBindTexture(GL_TEXTURE_2D, MyTexture::bindTexture("myimages/DarkBlue.tga", 1));
+            glBindTexture(GL_TEXTURE_2D, MyTexture::bindTexture("myimages/BlueNew.tga", 1));
             break;
         default:
             glColor3f(1, 1, 1);

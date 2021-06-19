@@ -151,6 +151,28 @@ void renderStrokeFontString(float x,float y,float z,void* font,char* string) {
 
     glPopMatrix();
 }
+
+void gameoverDisplay() {
+
+    
+    glPushMatrix();
+
+    glEnable(GL_TEXTURE_2D);
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+    glBindTexture(GL_TEXTURE_2D, MyTexture::bindTexture("myimages/gameoverwhite.tga", 1));
+
+    glTranslatef(0, 0, 4);
+    glBegin(GL_QUADS);
+
+    glTexCoord2f(0.0f, 0.0f); glVertex3f(-2.0f, -2.0f, 2.0f);
+    glTexCoord2f(1.0f, 0.0f); glVertex3f(2.0f, -2.0f, 2.0f);
+    glTexCoord2f(1.0f, 1.0f); glVertex3f(2.0f, 2.0f, 2.0f);
+    glTexCoord2f(0.0f, 1.0f); glVertex3f(-2.0f, 2.0f, 2.0f);
+    glEnd();
+    glDisable(GL_TEXTURE_2D);
+    glPopMatrix();
+}
+
 void display() {
     auto dt = getDeltaTime();
     time_spent += dt;
@@ -202,18 +224,9 @@ void display() {
                 print("Game Over");
 
                 // TEXTURE GAME OVER
+                
 
-                glEnable(GL_TEXTURE_2D);
-                glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
-                glBindTexture(GL_TEXTURE_2D, MyTexture::bindTexture("myimages/gameover.tga",1));
-
-                glBegin(GL_QUADS);
-                glTexCoord2f(0.0f, 0.0f); glVertex3f(bg[0][0], bg[0][1], bg[0][2]);  // Left bottom
-                glTexCoord2f(1.0f, 0.0f); glVertex3f(bg[1][0], bg[1][1], bg[1][2]);  // Right bottom
-                glTexCoord2f(1.0f, 1.0f); glVertex3f(bg[2][0], bg[2][1], bg[2][2]);  // Right Top
-                glTexCoord2f(0.0f, 1.0f); glVertex3f(bg[3][0], bg[3][1], bg[3][2]);  // Left Top
-                glEnd();
-                glDisable(GL_TEXTURE_2D);
+                
             }
         }
 
@@ -225,9 +238,15 @@ void display() {
         }
     }
 
+    
+
     // Draw active game block and board
     Block::get().draw();
     Board::get().draw();
+
+    if (state == State::GAMEOVER) {
+        gameoverDisplay();
+    }
 
     //Score 
     //https://flex.phys.tohoku.ac.jp/texi/glut/glutStrokeCharacter.3xglut.html
@@ -248,7 +267,7 @@ void display() {
     glRotatef(rotation_x, 1, 0, 0); 
     glRotatef(rotation_y, 0, 1, 0);
     glRotatef(rotation_z, 0, 0, 1);
-    Logo::quadLogo(texture);
+    Logo::quadLogo(MyTexture::bindTexture("myimages/Block_1_.tga", 1), MyTexture::bindTexture("myimages/Game_1_.tga", 1));
     glDisable(GL_LIGHTING);
     if (animating) {
         rotation_y += 0.01f;
@@ -277,7 +296,7 @@ void init(int width, int height) {
     glShadeModel(GL_FLAT);
     resize(width, height);
     sound = SoundEngine->play2D("audio/Theme1.mp3", true);
-    texture = MyTexture::bindTexture("myimages/Block.tga",1);
+    //texture = MyTexture::bindTexture("myimages/Block_1_.tga",1);
     rotation_x = rotation_y = rotation_z = 0.0;
    
 }

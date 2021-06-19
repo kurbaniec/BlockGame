@@ -6,7 +6,7 @@
 #include "Mats_Light.h"
 #include <GL/freeglut_ext.h>
 
-void Logo::quadLogo(GLuint texture) {
+void Logo::quadLogo(GLuint texture1, GLuint texture2) {
     auto points = std::vector<std::vector<float>>{
         {3, 1, 0},
         { 5,  1, 0 },
@@ -15,7 +15,7 @@ void Logo::quadLogo(GLuint texture) {
     };
     glEnable(GL_TEXTURE_2D);
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
-    glBindTexture(GL_TEXTURE_2D, texture);
+    glBindTexture(GL_TEXTURE_2D, texture1);
    
     glBegin(GL_QUADS);
     //Front
@@ -29,12 +29,21 @@ void Logo::quadLogo(GLuint texture) {
     glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f, -1.0f, 1.0f);
     glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f, 1.0f, 1.0f);
     glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f, 1.0f, 1.0f);
-    
+    glEnd();
+    glDisable(GL_TEXTURE_2D);
+
+    glEnable(GL_TEXTURE_2D);
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+    glBindTexture(GL_TEXTURE_2D, texture2);
+
+    glBegin(GL_QUADS);
+
     // back face
     glTexCoord2f(1.0f, 0.0f); glVertex3f(-1.0f, -1.0f, -1.0f);
     glTexCoord2f(1.0f, 1.0f); glVertex3f(-1.0f, 1.0f, -1.0f);
     glTexCoord2f(0.0f, 1.0f); glVertex3f(1.0f, 1.0f, -1.0f);
     glTexCoord2f(0.0f, 0.0f); glVertex3f(1.0f, -1.0f, -1.0f);
+
     // top face
     glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f, 1.0f, -1.0f);
     glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f, 1.0f, 1.0f);

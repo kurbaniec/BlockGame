@@ -5,7 +5,7 @@
 
 class Logo {
 public:
-    static void quadLogo(GLuint texture);
+    static void quadLogo(GLuint texture, GLuint texture2);
     //static void sphereLogo();
 
 
