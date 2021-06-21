@@ -12,7 +12,6 @@ GLuint MyTexture::bindTexture(const char* filename,int number)
 
     info = tgaLoad(filename);
 
-
     mode = info->pixelDepth / 8;  // will be 3 for rgb, 4 for rgba
     glGenTextures(number, &texture);
 

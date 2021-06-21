@@ -25,7 +25,12 @@ irrklang::ISoundEngine* SoundEngine = irrklang::createIrrKlangDevice();
 irrklang::ISound* sound;
 
 int window;
-GLuint texture;
+// Variables to attach the Textures
+GLuint frontFace;
+GLuint backFace;
+GLuint backGroundTex;
+GLuint gameOverTex;
+
 float rotation_x, rotation_y, rotation_z;
 bool animating = true;
 // Game state
@@ -34,6 +39,7 @@ int state;
 int old_t;
 float time_spent;
 int internScore = 0;
+
 
 
 void resize(int width, int height) {
@@ -152,6 +158,9 @@ void renderStrokeFontString(float x,float y,float z,void* font,char* string) {
     glPopMatrix();
 }
 
+/*
+* This Method is called when the User loses the Game (State is "GameOver")
+*/
 void gameoverDisplay() {
 
     
@@ -159,7 +168,8 @@ void gameoverDisplay() {
 
     glEnable(GL_TEXTURE_2D);
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
-    glBindTexture(GL_TEXTURE_2D, MyTexture::bindTexture("myimages/gameoverwhite.tga", 1));
+    // Binding the Game Over Texture
+    glBindTexture(GL_TEXTURE_2D, gameOverTex);
 
     glTranslatef(0, 0, 4);
     glBegin(GL_QUADS);
@@ -186,12 +196,13 @@ void display() {
 
     // Background with a 1:2 ratio
     auto bg = Config::backgroundPoints();
-    //glColor3f(1, 1, 1); // White
 
     glEnable(GL_TEXTURE_2D);
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
-    glBindTexture(GL_TEXTURE_2D, MyTexture::bindTexture("myimages/BackgroundTextureGrey.tga",1));
+    // Binding the Background Texture
+    glBindTexture(GL_TEXTURE_2D, backGroundTex);
     
+    // glTexCoord2f is needed so that the Texture is visible
     glBegin(GL_QUADS);
     glTexCoord2f(0.0f, 0.0f); glVertex3f(bg[0][0], bg[0][1], bg[0][2]);  // Left bottom
     glTexCoord2f(1.0f, 0.0f); glVertex3f(bg[1][0], bg[1][1], bg[1][2]);  // Right bottom
@@ -223,9 +234,6 @@ void display() {
                 state = GAMEOVER;
                 print("Game Over");
 
-                // TEXTURE GAME OVER
-                
-
                 
             }
         }
@@ -244,6 +252,7 @@ void display() {
     Block::get().draw();
     Board::get().draw();
 
+    // State -> Gamerover -> Show Gameover Texture
     if (state == State::GAMEOVER) {
         gameoverDisplay();
     }
@@ -267,13 +276,15 @@ void display() {
     glRotatef(rotation_x, 1, 0, 0); 
     glRotatef(rotation_y, 0, 1, 0);
     glRotatef(rotation_z, 0, 0, 1);
-    Logo::quadLogo(MyTexture::bindTexture("myimages/Block_1_.tga", 1), MyTexture::bindTexture("myimages/Game_1_.tga", 1));
+    Logo::quadLogo(frontFace, backFace);
     glDisable(GL_LIGHTING);
     if (animating) {
-        rotation_y += 0.01f;
+        rotation_y += 15 * dt;
     }
+    glColor3f(0, 0, 0);
    
     glutSwapBuffers();
+
 }
 
 
@@ -295,8 +306,14 @@ void init(int width, int height) {
     glEnable(GL_DEPTH_TEST);
     glShadeModel(GL_FLAT);
     resize(width, height);
+
+    //init Logo, BackgroundTexture and the Gameover Texture
+    frontFace = MyTexture::bindTexture("myimages/Block_1_.tga", 1);
+    backFace = MyTexture::bindTexture("myimages/Game_1_.tga", 1);
+    backGroundTex = MyTexture::bindTexture("myimages/BackgroundTextureGrey.tga", 1);
+    gameOverTex = MyTexture::bindTexture("myimages/gameoverwhite.tga", 1);
+
     sound = SoundEngine->play2D("audio/Theme1.mp3", true);
-    //texture = MyTexture::bindTexture("myimages/Block_1_.tga",1);
     rotation_x = rotation_y = rotation_z = 0.0;
    
 }
