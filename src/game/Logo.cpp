@@ -5,17 +5,13 @@
 #include <vector>
 #include "Mats_Light.h"
 #include <GL/freeglut_ext.h>
-
+/*
+* Sets 2 textures, material and lightning on the GameLogoQuad
+*/
 void Logo::quadLogo(GLuint texture1, GLuint texture2) {
-    auto points = std::vector<std::vector<float>>{
-        {3, 1, 0},
-        { 5,  1, 0 },
-        { 5,  3,  0 },
-        { 3, 3,  0 }
-    };
     glEnable(GL_TEXTURE_2D);
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
-    glBindTexture(GL_TEXTURE_2D, texture1);
+    glBindTexture(GL_TEXTURE_2D, texture1); // first texture
    
     glBegin(GL_QUADS);
     //Front
@@ -34,7 +30,7 @@ void Logo::quadLogo(GLuint texture1, GLuint texture2) {
 
     glEnable(GL_TEXTURE_2D);
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
-    glBindTexture(GL_TEXTURE_2D, texture2);
+    glBindTexture(GL_TEXTURE_2D, texture2); // second texture
 
     glBegin(GL_QUADS);
 
@@ -59,8 +55,8 @@ void Logo::quadLogo(GLuint texture1, GLuint texture2) {
     glDisable(GL_TEXTURE_2D);
 
     glColor3f(1, 0, 0.0);
-    Mats_Light::setlight(1);
-    Mats_Light::setmats(1);
+    Mats_Light::setlight(1); // ambient light
+    Mats_Light::setmats(1); // ambient material
     
     glBegin(GL_QUADS);
     // right face
