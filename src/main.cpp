@@ -20,7 +20,7 @@
 #define GLUT_KEY_P 112
 #define GLUT_KEY_ESCAPE 27
 #define GLUT_KEY_a 97
-
+//irrKlang Libary for Audio
 irrklang::ISoundEngine* SoundEngine = irrklang::createIrrKlangDevice();
 irrklang::ISound* sound;
 
@@ -38,6 +38,7 @@ int state;
 // Used for delta time
 int old_t;
 float time_spent;
+//used for Gamescore calculation
 int internScore = 0;
 
 
@@ -70,22 +71,22 @@ void keyPressed(unsigned char key, int x, int y) {
             if (state == PLAY) {
                 state = PAUSE;
                 animating = false;
-                SoundEngine->setAllSoundsPaused();
+                SoundEngine->setAllSoundsPaused();//pause soundtrack
                 print("Paused");
             } else {
                 state = PLAY;
                 animating = true;
-                SoundEngine->setAllSoundsPaused(false);
+                SoundEngine->setAllSoundsPaused(false);//unpause soundtrack
                 print("Continue");
             }
             break;
         case GLUT_KEY_a:
             if (state == PLAY) {
                 if (animating) {
-                    animating = false;
+                    animating = false; //pause Logo animation
                 }
                 else {
-                    animating = true;
+                    animating = true; // continue Logo animation
                 }
             }
             break;
@@ -149,7 +150,7 @@ void renderStrokeFontString(float x,float y,float z,void* font,char* string) {
     char* c;
     glPushMatrix();
     glTranslatef(x, y, z);
-    glScalef(1 / 250.38, 1 / 250.38, 1 / 250.38);
+    glScalef(1 / 250.38, 1 / 250.38, 1 / 250.38); //downscale text
 
     for (c = string; *c != '\0'; c++) {
         glutStrokeCharacter(font, *c);
@@ -242,7 +243,7 @@ void display() {
         int counter = internScore;
         internScore += Board::get().lineClear();
         if (internScore > counter) {
-            SoundEngine->play2D("audio/clear.wav");
+            SoundEngine->play2D("audio/clear.wav"); //play sound when a line is cleared through increasing gamescore
         }
     }
 
@@ -257,7 +258,7 @@ void display() {
         gameoverDisplay();
     }
 
-    //Score 
+    //Score
     //https://flex.phys.tohoku.ac.jp/texi/glut/glutStrokeCharacter.3xglut.html
     glColor3f(1, 0, 0);
     void* font = GLUT_STROKE_MONO_ROMAN;
