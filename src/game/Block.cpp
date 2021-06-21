@@ -49,12 +49,14 @@ void Block::draw() {
             auto color = shape[i][j];
             if (color != Color::EMPTY) {
 
+                // set a random Color for the Block. 
                 DrawColor::setColor(color);
 
                 auto rectX = bg[3][0] + (float(x + j) * rectWidth);
                 auto rectY = bg[3][1] - (float(y + i) * rectHeight);
 
                 glBegin(GL_QUADS);
+                // glTexCoord2f is needed so that the Texture is visible
                 glTexCoord2f(0.0f, 0.0f); glVertex3f(rectX, rectY - rectHeight, 0);                 // Left bottom
                 glTexCoord2f(1.0f, 0.0f); glVertex3f(rectX + rectWidth, rectY - rectHeight, 0);  // Right bottom
                 glTexCoord2f(1.0f, 1.0f); glVertex3f(rectX + rectWidth, rectY, 0);                  // Right Top

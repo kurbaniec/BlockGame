@@ -118,6 +118,8 @@ void Board::draw() {
     // This approach mitigates `setColor` calls
     for (auto c = 1; c <= Color_Count; c++) {
         // Set draw color
+        // set the Color for the Block. 
+
         DrawColor::setColor(c);
         for (auto i = 0; i < board.size(); i++) {
             for (auto j = 0; j < board[i].size(); j++) {
@@ -128,6 +130,7 @@ void Board::draw() {
                     auto rectY = bg[3][1] - (float(i) * rectHeight);
 
                     glBegin(GL_QUADS);
+                    // glTexCoord2f is needed so that the Texture is visible
                     glTexCoord2f(0.0f, 0.0f); glVertex3f(rectX, rectY - rectHeight, 0);              // Left bottom
                     glTexCoord2f(1.0f, 0.0f); glVertex3f(rectX + rectWidth, rectY - rectHeight, 0);  // Right bottom
                     glTexCoord2f(1.0f, 1.0f); glVertex3f(rectX + rectWidth, rectY, 0);               // Right Top
