@@ -2,7 +2,10 @@
 #include "MyTexture.h"
 
 #include "../utils/tga.h"
-
+/*
+* load the texture and generate a GLUint(which is the texture)
+* return the GLUint Texture
+*/
 GLuint MyTexture::bindTexture(const char* filename,int number)
 {
     GLsizei w, h;
