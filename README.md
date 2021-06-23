@@ -53,6 +53,12 @@ Game controls:
   * Handling Game Input
   * (Simple, Untextured) Drawing of Game Pieces & Board
 
+* Julian Brzakala (If20b187)
+  * Texture Loading & Binding
+  * Different Textures on Logo Quad
+  * Selfmade Textures created in Adobe Illustrator
+  * Gameover Screen
+
 ## :book: Documentation
 
 Checkout the `git` history!
