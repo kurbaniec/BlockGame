@@ -59,6 +59,15 @@ Game controls:
   * Selfmade Textures created in Adobe Illustrator
   * Gameover Screen
 
+* Mohamed Elshal (If20b237)
+  * Texture Loader(Small Changes on TGA Loader)
+  * Quad for Logo
+  * Animation (LogoQuad)
+  * Lightning (LogoQuad)
+  * Material (LogoQuad)
+  * Text (for Score)
+  * Audio
+
 ## :book: Documentation
 
 Checkout the `git` history!
@@ -77,4 +86,4 @@ git log
 
 * [Learning Modern JavaScript with Tetris - Michael Karén](https://michael-karen.medium.com/learning-modern-javascript-with-tetris-92d532bcd057)
 * [Learn OpenGL - Joey de Vries](https://learnopengl.com/)
-
+* [irrKlang Libary](https://www.ambiera.at/downloads/irrKlang-64bit-1.6.0.zip)
