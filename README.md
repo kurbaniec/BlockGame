@@ -47,7 +47,7 @@ Game controls:
 
 ## :heavy_check_mark: Team members & responsibility
 
-* Kacper Urbaniec
+* Kacper Urbaniec (If20b215)
   * Project Setup
   * Game Logic (Movement, Transformations, Collision Detection, Line Clear & Game Over Check)
   * Handling Game Input
@@ -86,4 +86,5 @@ git log
 
 * [Learning Modern JavaScript with Tetris - Michael Karén](https://michael-karen.medium.com/learning-modern-javascript-with-tetris-92d532bcd057)
 * [Learn OpenGL - Joey de Vries](https://learnopengl.com/)
+* [FreeGLUT](https://www.transmissionzero.co.uk/software/freeglut-devel/)
 * [irrKlang Libary](https://www.ambiera.at/downloads/irrKlang-64bit-1.6.0.zip)
